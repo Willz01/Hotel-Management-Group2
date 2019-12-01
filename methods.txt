@@ -1,0 +1,9 @@
+1. LoginMenu()
+2. CustomersLogin()
+3. customersMenu()
+4. EmployeesLogin()
+5. EmployeeMenu()
+6. AddCustomer()
+7. search()
+8. cancelBooking()
+9. AddRoom
