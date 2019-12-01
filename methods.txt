@@ -7,3 +7,24 @@
 7. search()
 8. cancelBooking()
 9. AddRoom
+
+Customer menu options
+-------------------"
+1> Edit information"
+2> Cancel booking  "
+3> Login menu      "
+4> Exit            "
+-------------------"
+
+Employee menu options
+-------------------
+1> new customer
+2> Search 
+3> cancel booking
+4> List of customers
+5> Remove customer
+6> Edit customer's information
+7> Rooms availability 
+8> Login menu
+9> Exit 
+-------------------
