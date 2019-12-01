@@ -9,12 +9,12 @@
 9. AddRoom
 
 Customer menu options
--------------------"
+-------------------
 1> Edit information"
 2> Cancel booking  "
 3> Login menu      "
 4> Exit            "
--------------------"
+-------------------
 
 Employee menu options
 -------------------
