@@ -21,10 +21,11 @@ public class HotelLogic {
 
 
     Random random = new Random();
-    Scanner input = new Scanner(System.in);
+    static Scanner input = new Scanner(System.in);
     ArrayList<Room> roomArrayList = new ArrayList<>();
     ArrayList<Customer> customerArrayList = new ArrayList<>();
     ArrayList<Booking> bookingArrayList = new ArrayList<>();
+
 
     public HotelLogic() throws IOException {
     }
@@ -139,6 +140,30 @@ public class HotelLogic {
         System.out.println("All booking in the hotel");
         for (int i = 0; i < bookingArrayList.size(); i++) {
             System.out.println("[" + i + "]" + bookingArrayList.get(i));
+        }
+    }
+
+    public static void employeeLogin(ArrayList<Employee> employees) {
+        boolean loggedOut = true;
+
+        while (loggedOut == true) {
+
+
+            System.out.println("Enter your employee username: ");
+
+            String userCheck = input.nextLine();
+            System.out.println("Enter your employee password: ");
+
+            String passCheck = input.nextLine();
+
+
+            for (int i = 0; i < employees.size(); i++) {
+                if (employees.get(i).getUsername().compareTo(userCheck) == 0 && employees.get(i).getPassword().compareTo(passCheck) == 0) {
+
+                    loggedOut = false;
+                    System.out.println("Login successful");
+                }
+            }
         }
     }
 

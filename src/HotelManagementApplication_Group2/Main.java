@@ -1,6 +1,7 @@
 package HotelManagementApplication_Group2;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -9,6 +10,20 @@ public class Main {
 
         Main myApp = new Main();
         HotelLogic hotelMyApp = new HotelLogic();
+
+
+        Employee Wills = new Employee("wills", "pass");
+        Employee Muhannad = new Employee("muhannad", "pass");
+        Employee Piotr = new Employee("piotr", "pass");
+        Employee Muzi = new Employee("muzi", "pass");
+        ArrayList<Employee> employees = new ArrayList<>();
+        employees.add(Wills);
+        employees.add(Muhannad);
+        employees.add(Piotr);
+        employees.add(Muzi);
+
+        //when adding a switch or if for loging in as employee or customer the console won't ask for username
+        hotelMyApp.employeeLogin(employees);
 
         hotelMyApp.existingRooms();
 
@@ -26,6 +41,8 @@ public class Main {
         }
     }
 
+
+
     public void menu() {
         System.out.println("Welcome to the hotel application");
         System.out.println("1-Add booking ");
@@ -34,5 +51,4 @@ public class Main {
         System.out.println("Choose: ");
 
     }
-
 }
