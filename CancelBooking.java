@@ -7,8 +7,10 @@
         input.nextLine();
         for (int i = 0; i < bookingArrayList.size(); i++) {
             if (bookingArrayList.get(i).getBookingID() == bookingID && customerArrayList.get(i).getName().equalsIgnoreCase(name)) {
-                rooms.set(bookingArrayList.get(i).getRoomNum(),0);
-                bookingArrayList.remove(i);
+            customerArrayList.remove(i);
+            rooms[bookingArrayList.get(i).getRoomNum()] = 0;
+            bookingArrayList.remove(i);
+            System.out.println("Done ! ");
             }
         }
         /**
