@@ -31,6 +31,9 @@ public class Main {
             else if (choice == 5){
                 hotelMyApp.cancelBooking();
             }
+            else if (choice== 6){
+                hotelMyApp.viwBooking();
+            }
 
 
         }
