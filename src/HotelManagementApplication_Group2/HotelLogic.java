@@ -146,24 +146,35 @@ public class HotelLogic {
     public static void employeeLogin(ArrayList<Employee> employees) {
         boolean loggedOut = true;
 
-        while (loggedOut == true) {
+        System.out.println ("Login as employee or custumer\n1. Employee\n 2. Customer");
+        int employeeOrCustomer = input.nextInt();
+
+        switch (employeeOrCustomer) {
+            case 1:
+                while (loggedOut == true) {
 
 
-            System.out.println("Enter your employee username: ");
+                    System.out.println("Enter your employee username: ");
 
-            String userCheck = input.nextLine();
-            System.out.println("Enter your employee password: ");
+                    String userCheck = input.nextLine();
+                    userCheck = input.nextLine();
+                    System.out.println("Enter your employee password: ");
 
-            String passCheck = input.nextLine();
+                    String passCheck = input.nextLine();
 
 
-            for (int i = 0; i < employees.size(); i++) {
-                if (employees.get(i).getUsername().compareTo(userCheck) == 0 && employees.get(i).getPassword().compareTo(passCheck) == 0) {
+                    for (int i = 0; i < employees.size(); i++) {
+                        if (employees.get(i).getUsername().compareTo(userCheck) == 0 && employees.get(i).getPassword().compareTo(passCheck) == 0) {
 
-                    loggedOut = false;
-                    System.out.println("Login successful");
+                            loggedOut = false;
+                            System.out.println("Login successful");
+                        }
+                    }
                 }
-            }
+            case 2:
+                while (loggedOut == true) {
+                    
+                }
         }
     }
 

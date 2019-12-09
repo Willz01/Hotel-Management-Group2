@@ -22,7 +22,6 @@ public class Main {
         employees.add(Piotr);
         employees.add(Muzi);
 
-        //when adding a switch or if for loging in as employee or customer the console won't ask for username
         hotelMyApp.employeeLogin(employees);
 
         hotelMyApp.existingRooms();
