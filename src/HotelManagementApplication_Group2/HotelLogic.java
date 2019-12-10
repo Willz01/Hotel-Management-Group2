@@ -2,7 +2,6 @@ package HotelManagementApplication_Group2;
 
 import HotelManagementApplication_Group2.Booking;
 import HotelManagementApplication_Group2.Customer;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -13,19 +12,20 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class HotelLogic {
+    int checkInDate = 0;
     int userInput = 0;
+    int checkOutDate = 0;
     String fileContent = null;
     int numberOfNight = 0;
+
     File file = new File("c:/Users/Muhannad/HotelManagementApplication_Group2/CustomersList.txt");
     FileWriter fileWriter = new FileWriter("CustomerList.txt", true);                                                 // save all the information in text file, the project database.
 
-
     Random random = new Random();
-    static Scanner input = new Scanner(System.in);
+    Scanner input = new Scanner(System.in);
     ArrayList<Room> roomArrayList = new ArrayList<>();
     ArrayList<Customer> customerArrayList = new ArrayList<>();
     ArrayList<Booking> bookingArrayList = new ArrayList<>();
-
 
     public HotelLogic() throws IOException {
     }
@@ -36,102 +36,127 @@ public class HotelLogic {
         roomArrayList.add(store_room);
 
         for (int i = 1; i <= 6; i++) {
-            Room room = new Room(i, "Single bed", false, false, 350.00);
+            Room room = new Room(i, "Single bed", false, false, 300);
             roomArrayList.add(room);
         }
         for (int i = 7; i <= 12; i++) {
-            Room room = new Room(i, "Single bed", true, false, 450.00);
+            Room room = new Room(i, "Single bed", true, false, 400);
             roomArrayList.add(room);
         }
         for (int i = 13; i <= 18; i++) {
-            Room room = new Room(i, "Double bed", false, false, 650.00);
+            Room room = new Room(i, "Double bed", false, false, 450);
             roomArrayList.add(room);
         }
         for (int i = 19; i <= 24; i++) {
-            Room room = new Room(i, "Double bed", true, false, 850.00);
+            Room room = new Room(i, "Double bed", true, false, 550);
             roomArrayList.add(room);
         }
     }                                                                                     // Create 24 rooms and save them in the ArrayList room.
 
-    public void addNewBookingEmploy() {
+    public void addBooking() {
 
-        System.out.println("--Rooms at the hotel--");
-        System.out.println("HotelManagementApplication_Group2.Room numbers (1-6) Single bed without balcony ");
-        System.out.println("HotelManagementApplication_Group2.Room numbers (7-12) single bed with balcony");
-        System.out.println("HotelManagementApplication_Group2.Room numbers (13-18) Double bed without balcony");
-        System.out.println("HotelManagementApplication_Group2.Room numbers (19-24) Double bed with balcony");
+        System.out.println("Rooms description : ");
+        System.out.println("----------------------------------------------------");
+        System.out.println("Single bed rooms       : 1  - 6  (Price : 300 SEK) |");
+        System.out.println("Double bed rooms       : 7  - 12 (Price : 400 SEK) |");
+        System.out.println("Single bed and balcony : 13 - 18 (Price : 450 SEK) |");
+        System.out.println("Double beds & balcony  : 19 - 24 (Price : 550 SEK) |");
+        System.out.println("----------------------------------------------------");
         for (int i = 1; i < roomArrayList.size(); i++) {
             System.out.println("[" + (i) + "]" + roomArrayList.get(i));
         }
 
+
         try {
-            System.out.print("which room would you like to book:  ");                                                        // choosing a room number to book it.
-            userInput = input.nextInt();
-            input.nextLine();
+            System.out.print("which room would you like to book:  ");                                                     // Check if the user input is not integer so will fix it.
+            String userInputString = input.nextLine();
+            userInput = Integer.parseInt(userInputString);
+        } catch (NumberFormatException e) {
+            System.out.println("! Invalid room number , enter a room number from the list");
+            return;
+        }
 
-            if ((userInput < roomArrayList.size() && userInput >= 1)) {                                                     // handle invalid room number input.
+        if ((userInput < roomArrayList.size() && userInput >= 1)) {
 
-                    if (!roomArrayList.get(userInput).isBooked()) {                                                 // check if the room already  booked or not.
-                        System.out.println("HotelManagementApplication_Group2.Customer's name: ");
-                        String customerName = input.nextLine();
-                        System.out.println("SSN: ");
-                        String ssn = input.nextLine();
-                        System.out.println("HotelManagementApplication_Group2.Customer's address: ");
-                        String customerAddress = input.nextLine();
-                        System.out.println("TelephoneNumber: ");
-                        String telephoneNumber = input.nextLine();
-                        System.out.println("E-mail: ");
-                        String email = input.nextLine();
-                        System.out.println(" Check in date: ");
-                        String checkInDate = input.nextLine();
-                        System.out.println(" Check out date: ");
-                        String checkOutDate = input.nextLine();
-                        System.out.println(" How many night: ");
-                        numberOfNight = input.nextInt();
+            if (!roomArrayList.get(userInput).isBooked()) {
 
-                        int bookingNumber = random.nextInt(1000);                                                    // generate a random booking number and then save it in the text file.
-                        int customerPassword = random.nextInt(9999);                                                 // generate a random password and will save it in a new text file which the employ while print it and give it to the customer
+                Customer customer = addCustomer();
 
-                        Customer customer = new Customer(ssn, customerName, customerAddress, telephoneNumber, email);       // Create new customer object and save it in the customer ArrayList
-                        customerArrayList.add(customer);
-                        roomArrayList.get(userInput).setBooked(true);
-                        Booking booking = new Booking(bookingNumber, checkInDate, checkOutDate, totalPrice());
-                        bookingArrayList.add(booking);
-                        System.out.println("Thanks for your booking");
+                boolean done = false;
+                while (!done) {
+                    try {
+                        System.out.printf("Check in date  : ");
+                        String checkINString = input.nextLine();
+                        checkInDate = Integer.parseInt(checkINString);
+                        done = true;
 
+                    } catch (NumberFormatException e) {
 
-                        try {                                                                                               // save all the information in text file, the project database.
-                            BufferedWriter writer = new BufferedWriter(fileWriter);
-                            fileContent = ("HotelManagementApplication_Group2.Customer name: " + customerName + ", SSN:" + ssn + ", Address: " + customerAddress
-                                    + ", Telephone: " + telephoneNumber + ", E-mail" + email + "HotelManagementApplication_Group2.Booking Number" + bookingNumber + "\n");
+                        input.nextLine();
+                        System.out.println("Invalid date (DD), Try again !");
 
-                            writer.write(fileContent);
-                            writer.flush();
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-
-                    } else if (roomArrayList.get(userInput).isBooked()) {
-                        System.out.println("----The room already booked!----");
-                        System.out.println("------Choose another room-------");
 
                     }
+                }
+                boolean done1 = false;
+                while (!done1) {
+                    try {
+                        System.out.printf("Check out date  : ");
+                        String checkOutString = input.nextLine();
+                        int checkOutDate = Integer.parseInt(checkOutString);
+                        done1 = true;
 
-            } else {                                                                                                        // if the user input invalid , room number in this case will be between 1 and 24 / we have only now 24 rooms.
-                System.out.println("! Invalid input, enter a room number");
+                    } catch (NumberFormatException e) {
+                        input.nextLine();
+                        System.out.println("Invalid date (DD), Try again !");
+
+                    }
+                }
+
+                boolean done2 = false;
+                while (!done2) {
+                    try {
+                        System.out.println("How many nigh? :");
+                        String numberOfNightString = input.nextLine();
+                        int numberOfNight = Integer.parseInt(numberOfNightString);
+                        done2 = true;
+
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid number , Try again !");
+
+                    }
+                }
+                int bookingNumber = random.nextInt(1000);                                                           // generate a random booking number and then save it in the text file.
+                int customerPassword = random.nextInt(9999);
+
+                roomArrayList.get(userInput).setBooked(true);
+                Booking booking = new Booking(bookingNumber, checkInDate, checkOutDate, totalPrice());
+                bookingArrayList.add(booking);
+                System.out.println("Thanks for your booking");
+                try {
+
+                    BufferedWriter writer = new BufferedWriter(fileWriter);
+                    fileContent = ("Customer name: " + customer.getName() + ", SSN:" + customer.getSsn() + ", Address: " + customer.getAddress()
+                            + ", Telephone: " + customer.getCustomerTelephoneNumber() + ", E-mail" + customer.getEmail() + "Booking Number" + bookingNumber + "\n");
+                    writer.write(fileContent);
+                    writer.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+
+                }
+            } else if (roomArrayList.get(userInput).isBooked()) {
+                System.out.println("----The room already booked!----");
+                System.out.println("------Choose another room-------");
 
             }
-
-        } catch (InputMismatchException e) {
-            System.out.println("! Invalid room number , enter a room number from the list");
-
+        } else {                                                                                                        // if the user input invalid , room number in this case will be between 1 and 24 / we have only now 24 rooms.
+            System.out.println("! Invalid input, enter a room number");
         }
     }
 
 
     public double totalPrice() {
+        numberOfNight = checkOutDate - checkInDate;
         double totalPrise = numberOfNight * (roomArrayList.get(userInput).getPrice());
         return totalPrise;
     }
@@ -143,53 +168,82 @@ public class HotelLogic {
         }
     }
 
-    public static void employeeLogin(ArrayList<Employee> employees) {
-        boolean loggedOut = true;
+    public Customer addCustomer() {
+        System.out.println("Customer's name: ");
+        String customerName = input.nextLine();
+        System.out.println("SSN: ");
+        String ssn = input.nextLine();
+        System.out.println("Customer's address: ");
+        String customerAddress = input.nextLine();
+        System.out.println("TelephoneNumber: ");
+        String customerTelephoneNumber = input.nextLine();
+        System.out.println("E-mail: ");
+        String customerEmail = input.nextLine();
 
-        System.out.println ("Login as employee or custumer\n1. Employee\n 2. Customer");
-        int employeeOrCustomer = input.nextInt();
+        Customer customer = new Customer(ssn, customerName, customerAddress, customerTelephoneNumber, customerEmail);       // Create new customer object and save it in the customer ArrayList
+        customerArrayList.add(customer);
+        return customer;
+    }
 
-        switch (employeeOrCustomer) {
-            case 1:
-                while (loggedOut == true) {
-
-
-                    System.out.println("Enter your employee username: ");
-
-                    String userCheck = input.nextLine();
-                    userCheck = input.nextLine();
-                    System.out.println("Enter your employee password: ");
-
-                    String passCheck = input.nextLine();
-
-
-                    for (int i = 0; i < employees.size(); i++) {
-                        if (employees.get(i).getUsername().compareTo(userCheck) == 0 && employees.get(i).getPassword().compareTo(passCheck) == 0) {
-
-                            loggedOut = false;
-                            System.out.println("Login successful");
-                        }
-                    }
-                }
-            case 2:
-                while (loggedOut == true) {
-                    
-                }
+    public void viewCustomer() {
+        System.out.println("---- All customer in the hotel ----");
+        for (int i = 0; i < customerArrayList.size(); i++) {
+            System.out.println("Customer : " + customerArrayList.get(i));
         }
     }
 
-//    public void cancelBooking() {
-//        System.out.printf("Customers name : ");
-//        String name = input.nextLine();
-//        System.out.printf("HotelManagementApplication_Group2.Booking ID     : ");
-//        int bookingID = input.nextInt();
-//        input.nextLine();
-//        for (int i = 0; i < bookingArrayList.size(); i++) {
-//            if (bookingArrayList.get(i).getBookingID() == bookingID && customerArrayList.get(i).getName().equalsIgnoreCase(name)) {
-//                rooms.set(bookingArrayList.get(i).getRoomNum(), 0);
-//                bookingArrayList.remove(i);
-//            }
-//        }
-//    }
+    public void cancelBooking() {
+        System.out.printf("Customers name : ");
+        String name = input.nextLine();
+        System.out.printf("Booking ID     : ");
+        int bookingID = input.nextInt();
+        input.nextLine();
+        for (int i = 0; i < bookingArrayList.size(); i++) {
+            if (bookingArrayList.get(i).getBookingId() == bookingID && customerArrayList.get(i).getName().equalsIgnoreCase(name)) {
+                customerArrayList.remove(i);
+                roomArrayList.get(i).setBooked(false);
+                bookingArrayList.remove(i);
+                System.out.println("Done ! ");
+            }
+        }
+
+    }
+
+    public void search() {
+        System.out.printf("Customers name : ");
+        String name = input.nextLine();
+        int bookingID = 0;
+        boolean done = false;
+        while (!done) {
+            try {
+                System.out.printf("Booking ID     : ");
+                bookingID = input.nextInt();
+                input.nextLine();
+                done = true;
+                for (int i = 0; i < customerArrayList.size(); i++) {
+                    if (customerArrayList.get(i).getName().equalsIgnoreCase(name) && bookingArrayList.get(i).getBookingId() == bookingID) {
+                        System.out.println("++++++++++++++++++++++++++");
+                        System.out.println("Customer's info : ");
+                        System.out.println("Name     : " + customerArrayList.get(i).getName());
+                        System.out.println("SSN      : " + customerArrayList.get(i).getSsn());
+                        System.out.println("Address  : " + customerArrayList.get(i).getAddress());
+                        System.out.println("++++++++++++++++++++++++++");
+                        System.out.println("Customer's booking info : ");
+                        System.out.println("Booking ID      : " + bookingArrayList.get(i).getBookingId());
+                        System.out.println("Check in date   : " + bookingArrayList.get(i).getCheckInDate());
+                        System.out.println("Check out date  : " + bookingArrayList.get(i).getCheckOutDate());
+                        System.out.println("Room number     : " + roomArrayList.get(i).getRoomNumber());
+                        System.out.println("Price per night : " + roomArrayList.get(i).getPrice() + " SEK");
+                        System.out.println("Total price     : " + bookingArrayList.get(i).getTotalPrice() + " SEK");
+                        System.out.println("++++++++++++++++++++++++++");
+                    }
+                }
+            } catch (InputMismatchException e) {
+                input.nextLine();
+                System.out.println("Invalid booking ID, Try again !");
+            }
+        }
+
+    }
 }
 

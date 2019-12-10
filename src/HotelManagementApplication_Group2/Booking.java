@@ -2,19 +2,19 @@ package HotelManagementApplication_Group2;
 
 public class Booking {
     private int bookingId;
-    private String checkInDate;
-    private String checkOutDate;
+    private int checkInDate;
+    private int checkOutDate;
     private double totalPrice;
 
     public int getBookingId() {
         return bookingId;
     }
 
-    public String getCheckInDate() {
+    public int getCheckInDate() {
         return checkInDate;
     }
 
-    public String getCheckOutDate() {
+    public int getCheckOutDate() {
         return checkOutDate;
     }
 
@@ -22,7 +22,7 @@ public class Booking {
         return totalPrice;
     }
 
-    public Booking(int bookingId, String checkInDate, String checkOutDate, double totalPrice) {
+    public Booking(int bookingId, int checkInDate, int checkOutDate, double totalPrice) {
         this.bookingId = bookingId;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
@@ -31,11 +31,11 @@ public class Booking {
 
     @Override
     public String toString() {
-        return "HotelManagementApplication_Group2.Booking{" +
-                "HotelManagementApplication_Group2.Booking number =" + bookingId +
-                ", checkInDate='" + checkInDate + '\'' +
-                ", checkOutDate='" + checkOutDate + '\'' +
-                ", totalPrice=" + totalPrice +
-                '}';
+        return
+                "Booking number =" + bookingId +
+                        ", checkInDate='" + checkInDate + '\'' +
+                        ", checkOutDate='" + checkOutDate + '\'' +
+                        ", totalPrice=" + totalPrice +
+                        '}';
     }
 }

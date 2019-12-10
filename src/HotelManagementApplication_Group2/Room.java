@@ -59,6 +59,6 @@ public class Room {
     @Override
     public String toString() {
         String isBookedStatus =  booked == true ? " Booked" : " Available ";
-        return "HotelManagementApplication_Group2.Room Number=" + roomNumber +"  ,Price per night : "+ price +"Kr" + " ,HotelManagementApplication_Group2.Room:" + isBookedStatus ;
+        return "Room Number=" + roomNumber + " ,Room:" + isBookedStatus ;
     }
 }
