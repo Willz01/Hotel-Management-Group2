@@ -35,7 +35,6 @@ public class Booking {
                 "Booking number =" + bookingId +
                 ", checkInDate='" + checkInDate + '\'' +
                 ", checkOutDate='" + checkOutDate + '\'' +
-                ", totalPrice=" + totalPrice +
-                '}';
+                ", totalPrice=" + totalPrice;
     }
 }

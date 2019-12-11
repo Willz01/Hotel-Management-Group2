@@ -20,13 +20,13 @@ public void loginMenu() throws IOException {
         }
         if (choice == 1) {
             customersLogin();
-        } else if (choice == 2) {
-            System.out.printf("User name : ");
-            String userName = input.nextLine();
-            System.out.printf("Password  : ");
-            String employeePassWord = input.nextLine();
-            if (employeePassWord.equals("1234")) {
-                employee employee = new employee(userName, employeePassWord);
+        } e(userNalse if (choice == 2) {
+        System.out.printf("User name : ");
+        String userName = input.nextLine();
+        System.out.printf("Password  : ");
+        String employeePassWord = input.nextLine();
+        if (employeePassWord.equals("1234")) {
+        employee employee = new employeeme, employeePassWord);
                 FileWriter fw = new FileWriter("Employees.txt", true);
                 BufferedWriter bw = new BufferedWriter(fw);
                 PrintWriter pw = new PrintWriter(bw);
@@ -45,4 +45,6 @@ public void loginMenu() throws IOException {
             System.out.println("Invalid option! ");
             loginMenu();
         }
+
+
     }

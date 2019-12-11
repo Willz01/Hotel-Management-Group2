@@ -1,9 +1,6 @@
 package HotelManagementApplication_Group2;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Random;
@@ -131,21 +128,33 @@ public class HotelLogic {
                 int bookingNumber = random.nextInt(1000);                                                           // generate a random booking number and then save it in the text file.
                 int customerPassword = random.nextInt(9999);
 
-                roomArrayList.get(userInput).setBooked(true);
-                Booking booking = new Booking(bookingNumber, checkInDate, checkOutDate, totalPrice());
-                bookingArrayList.add(booking);
-                System.out.println("Thanks for your booking");
-                try {
+                System.out.println("-- -- Reservation confirmation -- --");
+                System.out.println("Booking number "+bookingNumber+ ",check in date: "+checkInDate+",check out date: "+ checkOutDate+", total price "+totalPrice());
+                System.out.println("Confirm the booking (YES or No)");
+                String confirm   = input.nextLine();
+                confirm = confirm.toUpperCase();
+                if (confirm.equals("YES")) {
+                                                                                                                                        //print the booking information to confirm all information and total price.
+                    roomArrayList.get(userInput).setBooked(true);
+                    Booking booking = new Booking(bookingNumber, checkInDate, checkOutDate, totalPrice());
+                    bookingArrayList.add(booking);
+                    System.out.println("Thanks for your booking");
+                    try {
 
-                    BufferedWriter writer = new BufferedWriter(fileWriter);
-                    fileContent = ("Customer name: " + customer.getName() + ", SSN:" + customer.getSsn() + ", Address: " + customer.getAddress()
-                            + ", Telephone: " + customer.getCustomerTelephoneNumber() + ", E-mail" + customer.getEmail() + "Booking Number" + bookingNumber + "\n");
-                    writer.write(fileContent);
-                    writer.flush();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                        BufferedWriter writer = new BufferedWriter(fileWriter);
+                        fileContent = ("Customer name: " + customer.getName() + ", SSN:" + customer.getSsn() + ", Address: " + customer.getAddress()
+                                + ", Telephone: " + customer.getCustomerTelephoneNumber() + ", E-mail" + customer.getEmail() + "Booking Number" + bookingNumber + "\n");
+                        writer.write(fileContent);
+                        writer.flush();
+                    } catch (IOException e) {
+                        e.printStackTrace();
 
+                    }
+
+                }else if (confirm.equals("NO")){
+                    System.out.println("The reservation has not been confirmed, thank you!");
                 }
+
             } else if (roomArrayList.get(userInput).isBooked()) {
                 System.out.println("----The room already booked!----");
                 System.out.println("------Choose another room-------");
@@ -422,5 +431,174 @@ public class HotelLogic {
 
         }
     }
+
+    public void loginMenu() throws IOException {
+        System.out.println("====Login menu===");
+        System.out.println("1> Customer     |");
+        System.out.println("2> Employee     |");
+        System.out.println("3> Exit         |");
+        System.out.println("=================");
+        boolean done = false;
+        int choice = 0;
+        while (!done) {
+            try {
+                System.out.printf(">>>> ");
+                choice = input.nextInt();
+                input.nextLine();
+                done = true;
+            } catch (InputMismatchException e) {
+                input.nextLine();
+                System.out.println("Invalid input, Try again !");
+            }
+        }
+        if (choice == 1) {
+            customersLogin();
+        } else if (choice == 2) {
+            System.out.printf("User name : ");
+            String userName = input.nextLine();
+            System.out.printf("Password  : ");
+            String employeePassWord = input.nextLine();
+            if (employeePassWord.equals("1234")) {
+                Employee employee = new Employee(userName, employeePassWord);
+                FileWriter fw = new FileWriter("Employees.txt", true);
+                BufferedWriter bw = new BufferedWriter(fw);
+                PrintWriter pw = new PrintWriter(bw);
+                pw.println(employee);
+                pw.close();
+                employeesMenu();
+            } else {
+                System.out.println("Invalid Password !");
+                loginMenu();
+            }
+
+        } else if (choice == 3) {
+            System.out.println("Thanks for now !! ");
+            System.exit(0);
+        } else {
+            System.out.println("Invalid option! ");
+            loginMenu();
+        }
+    }
+
+    public void customersLogin() {        // I don't have this method, it needs to push it.
+
+    }
+
+    public void addNewRoom() {
+        boolean hasBalcony = false;
+        System.out.println("////You adding new room to the hotel/////");
+        System.out.println("Enter the room number do you want to add");
+        int roomNumber = input.nextInt();
+
+        System.out.println("Which type of bed the room have? (Single bed or double bed)");
+        String typeOfBed = input.nextLine();
+        typeOfBed = typeOfBed.substring(0, 1).toUpperCase() + typeOfBed.substring(1).toLowerCase();
+
+        System.out.println("Does the room have a balcony? ");
+        System.out.println("yes or no");
+        String yesOrNo = input.nextLine();
+        yesOrNo = yesOrNo.toLowerCase();
+        if (yesOrNo.equals("yes")) {
+            hasBalcony = true;
+        } else if (yesOrNo.equals("no")) {
+            hasBalcony = false;
+        }
+
+        System.out.println("What is the price per night");
+        double price = input.nextDouble();
+
+        Room room = new Room(roomNumber, typeOfBed, hasBalcony, false, price);
+
+        System.out.println("Thank you1");
+        System.out.println("You added new room to the hotel");
+
+    }
+
+    public void removeRoom() {
+        System.out.println("/// Remove a room from the system ///");
+        System.out.println("Which room do you want to remove?");
+        for (int i = 0; i < roomArrayList.size(); i++) {
+            System.out.println(roomArrayList.get(i));
+        }
+        System.out.println("Enter room number: ");
+        int roomNumber = input.nextInt();
+        System.out.printf("Are you sure want to remove the room %s ?", roomNumber);
+        String userAnswer = input.nextLine();
+        userAnswer = userAnswer.toLowerCase();
+        if (userAnswer.equals("yes")) {
+            roomArrayList.remove(roomNumber);
+            System.out.println("-- -- -- -- -- --");
+            System.out.println("The room removed");
+            System.out.println("-- -- -- -- -- --");
+        } else if (userAnswer.equals("no")) {
+            System.out.println("-- -- -- -- -- -- -- -- -- -- -- --");
+            System.out.println("The room still exist in the system");
+            System.out.println("-- -- -- -- -- -- -- -- -- -- -- -- ");
+        } else {
+            System.out.println("Invalid input!");
+        }
+    }
+    
+    public void employeesMenu() {        // I don't have this method, it needs to push it.
+
+
+        while (true) {
+            menu();
+            int choice = input.nextInt();
+            if (choice == 1) {
+                addCustomerAfterCheckIfTheCustomerExist();
+            } else if (choice == 2) {
+                addBooking();
+            } else if (choice == 3) {
+                cancelBooking();
+            } else if (choice == 4) {
+                viwBooking();
+            } else if (choice == 5) {
+                viewCustomer();
+            } else if (choice == 6) {
+                search();
+            } else if (choice == 7) {
+                editRoomInformation();
+            } else if (choice == 8) {
+                availableRooms();
+            } else if (choice == 9) {
+                viewBookedRoom();
+            } else if (choice == 10) {
+                viewAllRoom();
+            } else if (choice == 11) {
+                editRoomInformation();
+            } else if (choice == 12) {
+                addNewRoom();
+            } else if (choice == 13) {
+                removeRoom();
+            }
+        }
+
+    }
+
+    public void menu() {
+        System.out.println("----- Menu of employee ---- ");                      // The employee menu, here only for testing our method the menu will finish soon.
+        System.out.println("1> Add new customer");                              // add customer to the system without adding booking
+        System.out.println("2> Add booking");                                       // adding booking with adding customer
+        System.out.println("3> Cancel booking");
+        System.out.println("4> View all booking");
+
+        System.out.println("5> List of customers");
+        System.out.println("6> Search a customer");
+        System.out.println("7> Edit customer's information ");
+
+
+        System.out.println("8> View available rooms");
+        System.out.println("9> View all booked room");
+
+        System.out.println("10> View rooms information");
+        System.out.println("11> Edit room information");
+        System.out.println("12> Add new room");
+        System.out.println("13> Remove a room");
+
+        System.out.println("Enter your choice: ");
+    }
+
+
 }
 
