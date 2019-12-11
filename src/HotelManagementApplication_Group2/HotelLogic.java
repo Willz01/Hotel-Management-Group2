@@ -10,6 +10,8 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class HotelLogic {
+    Customer customer;
+    String ssn;
     int checkInDate = 0;
     int userInput = 0;
     int checkOutDate = 0;
@@ -56,10 +58,10 @@ public class HotelLogic {
 
         System.out.println("Rooms description : ");
         System.out.println("----------------------------------------------------");
-        System.out.println("Single bed rooms       : 1  - 6  (Price : 300 SEK) |");
-        System.out.println("Double bed rooms       : 7  - 12 (Price : 400 SEK) |");
-        System.out.println("Single bed and balcony : 13 - 18 (Price : 450 SEK) |");
-        System.out.println("Double beds & balcony  : 19 - 24 (Price : 550 SEK) |");
+        System.out.println("Single bed rooms               : (1  - 6 ) ");
+        System.out.println("Single bed rooms & balcony     : (7  - 12)  ");
+        System.out.println("Single bed and balcony         : (13 - 18) ");
+        System.out.println("Double beds & balcony          : (19 - 24) ");
         System.out.println("----------------------------------------------------");
         for (int i = 1; i < roomArrayList.size(); i++) {
             System.out.println("[" + (i) + "]" + roomArrayList.get(i));
@@ -79,7 +81,8 @@ public class HotelLogic {
 
             if (!roomArrayList.get(userInput).isBooked()) {
 
-                Customer customer = addCustomer();
+//                Customer customer = addCustomer();
+                addCustomerAfterCheckIfTheCustomerExist();
 
                 boolean done = false;
                 while (!done) {
@@ -152,7 +155,6 @@ public class HotelLogic {
             System.out.println("! Invalid input, enter a room number");
         }
     }
-
 
     public double totalPrice() {
         numberOfNight = checkOutDate - checkInDate;
@@ -243,6 +245,182 @@ public class HotelLogic {
             }
         }
 
+    }
+
+    public void editRoomInformation() {
+        int roomNumber;
+
+        for (int i = 1; i < roomArrayList.size(); i++) {
+            System.out.println("[" + (i) + "]" + roomArrayList.get(i));
+        }
+
+        try {
+            System.out.println("Which room will you modify?");
+            String roomNumberString = input.nextLine();
+            roomNumber = Integer.parseInt(roomNumberString);
+        } catch (NumberFormatException e) {
+            System.out.println("! Invalid input , enter a room number from the list");
+            return;
+        }
+
+
+        System.out.println("Does the room have a balcony? ");
+        System.out.println("yes or no");
+        String yesOrNo = input.nextLine();
+        yesOrNo = yesOrNo.toLowerCase();
+        if (yesOrNo.equals("yes")) {
+            roomArrayList.get(roomNumber).setHasBalcony(true);
+        } else if (yesOrNo.equals("no")) {
+            roomArrayList.get(roomNumber).setHasBalcony(false);
+        }
+
+        System.out.println("Which type of bed has the room, (single bed or double bed?)");
+        String typeOfBed = input.nextLine();
+        typeOfBed = typeOfBed.substring(0, 1).toUpperCase() + typeOfBed.substring(1).toLowerCase();
+        roomArrayList.get(roomNumber).setTypeOfBed(typeOfBed);
+
+        System.out.println("Price per night for this room:");
+        double pricePerNight = input.nextDouble();
+        roomArrayList.get(roomNumber).setPrice(pricePerNight);
+    }
+
+    public void viewAllRoom() {
+        System.out.println("-----All room at the hotel-----");
+        for (int i = 1; i < roomArrayList.size(); i++) {
+            System.out.println("Room number " + "[" + i + "]" + roomArrayList.get(i));
+        }
+    }
+
+    public void availableRooms() {
+        System.out.println("-- -- -- -- -- -- -- -- -- ");
+        System.out.println("----All available rooms---- ");
+        System.out.println("-- -- -- -- -- -- -- -- -- ");
+        for (int i = 1; i < roomArrayList.size(); i++) {
+            if (!roomArrayList.get(i).getBooked()) {
+
+                System.out.println(roomArrayList.get(i));
+            }
+        }
+    }
+
+    public void viewBookedRoom() {
+        System.out.println("-- -- -- -- -- -- -- -- -- ");
+        System.out.println("---- All booked room ----");
+        System.out.println("-- -- -- -- -- -- -- -- -- ");
+        for (int i = 1; i < roomArrayList.size(); i++) {
+            if (roomArrayList.get(i).getBooked()) {
+
+                System.out.println(roomArrayList.get(i));
+            }
+        }
+    }
+
+    public void editCustomerInformation() {
+        int oneOrTwo;
+        int customerNumber;                                                                                     // Modify information for customer which have booking in the hotel
+        viewCustomer();
+        System.out.println("--- ---Change the information of customers currently in the hotel--- ---");
+        System.out.println();
+
+        try {
+            System.out.println("Which customer information do you want to chane?");
+            String customerNumberString = input.nextLine();
+            customerNumber = Integer.parseInt(customerNumberString);
+        } catch (NumberFormatException e) {
+            System.out.println("! Invalid input , enter which customer do you want to edit");
+            return;
+        }
+
+        try {
+            System.out.println("1-Change all the information)");
+            System.out.println("2- Change certain information");
+            System.out.println("Choose >1 or >2");
+
+            String oneOrTwoString = input.nextLine();
+            oneOrTwo = Integer.parseInt(oneOrTwoString);
+        } catch (NumberFormatException e) {
+            System.out.println("! Invalid input , enter which option do you want.");
+            return;
+        }
+        if (oneOrTwo == 1) {
+            System.out.println("Enter a new name: ");
+            String name = input.nextLine();
+            System.out.println("Enter customer's SSN");
+            String ssn = input.nextLine();
+            System.out.println("Enter customer's address");
+            String address = input.nextLine();
+            System.out.println("Enter customer's telephone number ");
+            String customerTele = input.nextLine();
+            System.out.println("Enter customer's email");
+            String customerMail = input.nextLine();
+            customerArrayList.get(customerNumber).setName(name);
+            customerArrayList.get(customerNumber).setSsn(ssn);
+            customerArrayList.get(customerNumber).setAddress(address);
+            customerArrayList.get(customerNumber).setCustomerTelephoneNumber(customerTele);
+            customerArrayList.get(customerNumber).setEmail(customerMail);
+        } else if (oneOrTwo == 2) {
+            System.out.println("Which information do you want to change");
+            System.out.println("Name?, Address ? , Phone?, SSN? or Email?");
+            System.out.println("Enter you choice: ");
+            String choice = input.nextLine();
+            choice.toLowerCase();
+
+            if (choice.equals("name")) {
+                System.out.println("Enter the name");
+                String name = input.nextLine();
+                customerArrayList.get(customerNumber).setName(name);
+            } else if (choice.equals("ssn")) {
+                System.out.println("Enter the SSN:");
+                String ssn = input.nextLine();
+                customerArrayList.get(customerNumber).setSsn(ssn);
+
+            } else if (choice.equals("address")) {
+                System.out.println("Enter the address: ");
+                String address = input.nextLine();
+                customerArrayList.get(customerNumber).setAddress(address);
+            } else if (choice.equals("phone")) {
+                System.out.println("Enter the telephone number");
+                String phone = input.nextLine();
+                customerArrayList.get(customerNumber).setCustomerTelephoneNumber(phone);
+            } else if (choice.equals("email")) {
+                System.out.println("Enter the email");
+                String email = input.nextLine();
+                customerArrayList.get(customerNumber).setEmail(email);
+
+            } else {
+                System.out.println("Enter one of the above options please.");
+            }
+        }
+
+    }
+
+    public void addCustomerAfterCheckIfTheCustomerExist() {                                     // This method will take ssn as input and check if the ssn exist in the CustomerArrayList
+        boolean isEmpty = customerArrayList.isEmpty();
+        if (isEmpty) {
+            System.out.println("Enter customer's SSN, SSN must to be 12 digit numbers");        // Check first if the arraylsit is empty or not
+            System.out.println("Customer SSN: ");
+            ssn = input.nextLine();
+            addCustomer();
+            isEmpty = false;
+
+        } else {
+            System.out.println("Enter customer's SSN, SSN must to be 12 digit numbers");
+            System.out.print("Customer SSN:  ");
+            ssn = input.nextLine();
+
+            for (int i = 0; i < customerArrayList.size(); i++) {
+                if (customerArrayList.get(i).getSsn().equals(ssn)) {
+                    System.out.println("-- -- -- -- -- -- -- -- -- -- -- --");
+                    System.out.println("---- !The customer already exist in the system! ----");
+                    System.out.println("-- -- -- -- -- -- -- -- -- -- -- --");
+
+                } else {
+
+                    addCustomer();
+                }
+            }
+
+        }
     }
 }
 

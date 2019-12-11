@@ -27,7 +27,9 @@ public class Room {
         return hasBalcony;
     }
 
-
+    public boolean getBooked (){
+        return booked;
+    }
     public boolean isBooked() {
         return booked;
     }
@@ -56,9 +58,10 @@ public class Room {
         this.price = price;
     }
 
+
     @Override
     public String toString() {
         String isBookedStatus =  booked == true ? " Booked" : " Available ";
-        return "Room Number=" + roomNumber + " ,Room:" + isBookedStatus ;
+        return "Room number=" + roomNumber + " ,Room:" + isBookedStatus +",Price per night"+price;
     }
 }
