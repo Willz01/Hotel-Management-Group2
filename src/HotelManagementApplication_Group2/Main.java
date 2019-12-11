@@ -72,8 +72,9 @@ public class Main {
         boolean loggedOut = true;
 
         System.out.println("Login as employee or customer?\n1> Employee\n2> Customer");
-        int employeeOrCustomer = input.nextInt();
 
+        while (loggedOut == true){
+           int employeeOrCustomer = input.nextInt();
         if (employeeOrCustomer == 1) {
             while (loggedOut == true) {
 
@@ -95,10 +96,9 @@ public class Main {
                         while (loggedOut == false) {
                             myApp.employMenu();
                         }
-                    } else {
-                        System.out.println("Invalid username or/and password\nTry again !");
                     }
                 }
+                System.out.println("Invalid username or/and password\nTry again !");
             }
         } else if (employeeOrCustomer == 2) {
             while (loggedOut == true) {
@@ -116,14 +116,13 @@ public class Main {
 
                         loggedOut = false;
                         System.out.println("Login successful");
-                    } else {
-                        System.out.println("Invalid username or/and password\nTry again");
                     }
                 }
+                System.out.println("Invalid username or/and password\nTry again !");
             }
         } else {
             System.out.println("Number not 1 or 2\nTry again");
-            employeeOrCustomer=0;
         }
+    }
     }
 }
