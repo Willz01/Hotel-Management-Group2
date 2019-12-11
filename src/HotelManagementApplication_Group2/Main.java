@@ -40,93 +40,90 @@ public class Main {
     }
 
 
-
     public void employMenu() {
         hotelMyApp.existingRooms();
 
         System.out.println("Employee");                 // The employee menu, here only for testing our method the menu will finish soon.
-            System.out.println("1> new customer");          // add customer to the system without adding booking
-            System.out.println("2> Add booking");           // adding booking with adding customer
-            System.out.println("3> List of customers");
-            System.out.println("4> Search");
-            System.out.println("5> Cancel booking");
-            System.out.println("6> View all booking");
-            System.out.println("Enter your choice: ");
+        System.out.println("1> new customer");          // add customer to the system without adding booking
+        System.out.println("2> Add booking");           // adding booking with adding customer
+        System.out.println("3> List of customers");
+        System.out.println("4> Search");
+        System.out.println("5> Cancel booking");
+        System.out.println("6> View all booking");
+        System.out.println("Enter your choice: ");
 
-            int choice = input.nextInt();
-            if (choice == 1) {
-                hotelMyApp.addCustomer();
-            }
-            else if (choice == 2) {
-                hotelMyApp.addBooking();
-            }
-            else if (choice ==3){
-                hotelMyApp.viewCustomer();
-            }
-            else if (choice == 4){
-                hotelMyApp.search();
-            }
-            else if (choice == 5){
-                hotelMyApp.cancelBooking();
-            }
-            else if (choice== 6){
-                hotelMyApp.viwBooking();
-            }
+        int choice = input.nextInt();
+        if (choice == 1) {
+            hotelMyApp.addCustomer();
+        } else if (choice == 2) {
+            hotelMyApp.addBooking();
+        } else if (choice == 3) {
+            hotelMyApp.viewCustomer();
+        } else if (choice == 4) {
+            hotelMyApp.search();
+        } else if (choice == 5) {
+            hotelMyApp.cancelBooking();
+        } else if (choice == 6) {
+            hotelMyApp.viwBooking();
+        }
     }
+
     public void employeeLogin(ArrayList<Employee> employees, ArrayList<Customer> customers) {
         boolean loggedOut = true;
 
-        System.out.println ("Login as employee or customer?\n1> Employee\n2> Customer");
+        System.out.println("Login as employee or customer?\n1> Employee\n2> Customer");
         int employeeOrCustomer = input.nextInt();
 
-        switch (employeeOrCustomer) {
-            case 1:
-                while (loggedOut == true) {
+        if (employeeOrCustomer == 1) {
+            while (loggedOut == true) {
 
 
-                    System.out.println("Enter your employee username: ");
+                System.out.println("Enter your employee username: ");
 
-                    String userCheck = input.nextLine();
-                    userCheck = input.nextLine();
-                    System.out.println("Enter your employee password: ");
+                String userCheck = input.nextLine();
+                userCheck = input.nextLine();
+                System.out.println("Enter your employee password: ");
 
-                    String passCheck = input.nextLine();
+                String passCheck = input.nextLine();
 
 
-                    for (int i = 0; i < employees.size(); i++) {
-                        if (employees.get(i).getUsername().compareTo(userCheck) == 0 && employees.get(i).getPassword().compareTo(passCheck) == 0) {
+                for (int i = 0; i < employees.size(); i++) {
+                    if (employees.get(i).getUsername().compareTo(userCheck) == 0 && employees.get(i).getPassword().compareTo(passCheck) == 0) {
 
-                            loggedOut = false;
-                            System.out.println("Login successful");
-                            while (loggedOut == false) {
-                                myApp.employMenu();
-                            }
-                        } else {
-                            System.out.println("Invalid username or/and password\nTry again !");
+                        loggedOut = false;
+                        System.out.println("Login successful");
+                        while (loggedOut == false) {
+                            myApp.employMenu();
                         }
+                    } else {
+                        System.out.println("Invalid username or/and password\nTry again !");
                     }
                 }
-            case 2:
-                while (loggedOut == true) {
+            }
+        } else if (employeeOrCustomer == 2) {
+            while (loggedOut == true) {
 
-                    System.out.println("Enter your customer username: ");
+                System.out.println("Enter your customer username: ");
 
-                    String userCheck = input.nextLine();
-                    userCheck = input.nextLine();
-                    System.out.println("Enter your customer password: ");
+                String userCheck = input.nextLine();
+                userCheck = input.nextLine();
+                System.out.println("Enter your customer password: ");
 
-                    String passCheck = input.nextLine();
+                String passCheck = input.nextLine();
 
-                    for (int i = 0; i < customers.size(); i++) {
-                        if (employees.get(i).getUsername().compareTo(userCheck) == 0 && employees.get(i).getPassword().compareTo(passCheck) == 0) {
+                for (int i = 0; i < customers.size(); i++) {
+                    if (employees.get(i).getUsername().compareTo(userCheck) == 0 && employees.get(i).getPassword().compareTo(passCheck) == 0) {
 
-                            loggedOut = false;
-                            System.out.println("Login successful");
-                        } else {
-                            System.out.println("Invalid username or/and password\nTry again");
-                        }
+                        loggedOut = false;
+                        System.out.println("Login successful");
+                    } else {
+                        System.out.println("Invalid username or/and password\nTry again");
                     }
                 }
+            }
+        } else {
+            System.out.println("Number not 1 or 2\nTry again");
+            employeeOrCustomer=0;
         }
     }
 }
