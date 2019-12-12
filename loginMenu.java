@@ -1,4 +1,4 @@
-2// all choices lead to a method call!!
+// all choices lead to a method call!!
 public void loginMenu() throws IOException {
         System.out.println("====Login menu===");
         System.out.println("1> Customer     |");
