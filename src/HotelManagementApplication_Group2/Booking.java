@@ -32,6 +32,7 @@ public class Booking {
     @Override
     public String toString() {
         return
+                "Room number"+
                 "Booking number =" + bookingId +
                 ", checkInDate='" + checkInDate + '\'' +
                 ", checkOutDate='" + checkOutDate + '\'' +
