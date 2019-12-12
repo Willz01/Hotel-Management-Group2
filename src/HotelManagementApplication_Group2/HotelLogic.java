@@ -17,9 +17,8 @@ public class HotelLogic {
     int numberOfNight = 0;
 
 
-
-    File file = new File("CustomersList.txt");
-    FileWriter fileWriter = new FileWriter("CustomerList.txt", true);                                                 // save all the information in text file, the project database.
+    File file;
+    FileWriter fileWriter;                                               // save all the information in text file, the project database.
 
     Random random = new Random();
     Scanner input = new Scanner(System.in);
@@ -34,10 +33,11 @@ public class HotelLogic {
     }
 
     public HotelLogic() throws IOException {
+        populateRoomArrayList();
     }
 
 
-    public void existingRooms() {                   // Create 24 rooms
+    private void populateRoomArrayList() {                   // Create 24 rooms
         Room store_room = new Room(0, "Store room", false, true, 0);       // unused room but need for easy printing the arryList.
         roomArrayList.add(store_room);
 
@@ -59,7 +59,7 @@ public class HotelLogic {
         }
     }                                                                                     // Create 24 rooms and save them in the ArrayList room.
 
-    public void addBooking() {
+    public void addNewBooking() {
 
         System.out.println("Rooms description : ");
         System.out.println("----------------------------------------------------");
@@ -145,12 +145,16 @@ public class HotelLogic {
                 confirm = confirm.toUpperCase();
                 if (confirm.equals("YES")) {
                     //print the booking information to confirm all information and total price.
+
                     roomArrayList.get(userInput).setBooked(true);
                     Booking booking = new Booking(bookingNumber, checkInDate, checkOutDate, totalPrice());
                     bookingArrayList.add(booking);
-                    System.out.println("Thanks for your booking");
-                    try {
 
+                    System.out.println("Thanks for your booking");
+
+                    try {
+                        new FileWriter("CustomerList.txt", true);
+                        new File("CustomersList.txt");
                         BufferedWriter writer = new BufferedWriter(fileWriter);
                         fileContent = ("Customer name: " + customer.getName() + ", SSN:" + customer.getSsn() + ", Address: " + customer.getAddress()
                                 + ", Telephone: " + customer.getCustomerTelephoneNumber() + ", E-mail" + customer.getEmail() + "Booking Number" + bookingNumber + "\n");
@@ -304,7 +308,10 @@ public class HotelLogic {
     public void viewAllRoom() {
         System.out.println("-----All room at the hotel-----");
         for (int i = 1; i < roomArrayList.size(); i++) {
-            System.out.println("Room number " + "[" + i + "]" + roomArrayList.get(i));
+
+            String isBookedStatus =  roomArrayList.get(i).isHasBalcony() ? " With balcony" : " Without balcony ";
+
+            System.out.println( roomArrayList.get(i)+", "+roomArrayList.get(i).getTypeOfBed()+", "+isBookedStatus);
         }
     }
 
@@ -314,15 +321,14 @@ public class HotelLogic {
         System.out.println("----All available rooms---- ");
         System.out.println("-- -- -- -- -- -- -- -- -- ");
 
-        for (int i = 0; i < roomArrayList.size() ; i++) {
+
+        for (int i = 0; i < roomArrayList.size(); i++) {
+
             if (!roomArrayList.get(i).getBooked()) {
 
                 System.out.println(roomArrayList.get(i));
-            } else {
-                System.out.println();
-                System.out.println("There are no available rooms");
-                break;
             }
+
         }
     }
 
@@ -540,6 +546,7 @@ public class HotelLogic {
 
         // add room to text file as data base to recall them if we restart the program.
         // it is worked as a database to the room objects.
+
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(new File("rooms.txt"));
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
@@ -582,7 +589,7 @@ public class HotelLogic {
         System.out.println("Enter room number: ");
         int roomNumber = input.nextInt();
         input.nextLine();
-        System.out.printf("Are you sure want to remove the room %s ?", roomNumber+"Yes or No");
+        System.out.printf("Are you sure want to remove the room %s ?", roomNumber + "Yes or No");
 
         String userAnswer = input.nextLine();
         userAnswer = userAnswer.toLowerCase();
@@ -609,7 +616,6 @@ public class HotelLogic {
     }
 
     public void employeesMenu() {
-
 
         while (true) {
             menu();
@@ -716,7 +722,7 @@ public class HotelLogic {
             String choiceString = input.nextLine();
             choice = Integer.parseInt(choiceString);
             if (choice == 1) {
-                addBooking();
+                addNewBooking();
             } else if (choice == 2) {
                 cancelBooking();
             } else if (choice == 3) {

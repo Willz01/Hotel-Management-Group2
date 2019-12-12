@@ -30,6 +30,7 @@ public class Room {
     public boolean getBooked (){
         return booked;
     }
+
     public boolean isBooked() {
         return booked;
     }
