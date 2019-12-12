@@ -48,8 +48,6 @@ public class Main {
             else if (choice ==11){
                 hotelMyApp.viewBookedRoom();
             }
-
-
         }
     }
 
