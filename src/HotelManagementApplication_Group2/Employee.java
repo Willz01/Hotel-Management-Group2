@@ -1,6 +1,7 @@
 package HotelManagementApplication_Group2;
 
 public class Employee {
+
     private String userName;
     private String employeePassWord;
 
@@ -23,5 +24,6 @@ public class Employee {
 
     public void setEmployeePassWord(String employeePassWord) {
         this.employeePassWord = employeePassWord;
+
     }
 }
