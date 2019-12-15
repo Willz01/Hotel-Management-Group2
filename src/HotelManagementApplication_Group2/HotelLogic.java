@@ -25,11 +25,13 @@ public class HotelLogic {
     ArrayList<Room> roomArrayList = new ArrayList<>();
     ArrayList<Customer> customerArrayList = new ArrayList<>();
     ArrayList<Booking> bookingArrayList = new ArrayList<>();
+    ArrayList<Employee> employeeArrayList = new ArrayList<>();
 
-    public HotelLogic(ArrayList<Room> roomArrayList, ArrayList<Customer> customerArrayList, ArrayList<Booking> bookingArrayList) throws IOException {
+    public HotelLogic(ArrayList<Room> roomArrayList, ArrayList<Customer> customerArrayList, ArrayList<Booking> bookingArrayList, ArrayList<Employee> employeeArrayList) throws IOException {
         this.roomArrayList = roomArrayList;
         this.customerArrayList = customerArrayList;
         this.bookingArrayList = bookingArrayList;
+        this.employeeArrayList = employeeArrayList;
     }
 
     public HotelLogic() throws IOException {
@@ -491,27 +493,38 @@ public class HotelLogic {
             String userName = input.nextLine();
             System.out.printf("Password  : ");
             String employeePassWord = input.nextLine();
+
             if (employeePassWord.equals("1234")) {
+                System.out.printf("New employee user name : ");
+                userName = input.nextLine();
+                System.out.printf("New employee pass word  : ");
+                employeePassWord = input.nextLine();
                 Employee employee = new Employee(userName, employeePassWord);
+                employeeArrayList.add(new Employee(userName, employeePassWord));
                 FileWriter fw = new FileWriter("Employees.txt", true);
                 BufferedWriter bw = new BufferedWriter(fw);
                 PrintWriter pw = new PrintWriter(bw);
                 pw.println(employee);
                 pw.close();
                 employeesMenu();
-            } else {
-                System.out.println("Invalid Password !");
-                loginMenu();
+            }else if (employeeArrayList.size() != 0){
+                for (int i = 0; i < employeeArrayList.size(); i++) {
+                    if (employeeArrayList.get(i).getUserName().compareTo(userName) == 0 && employeeArrayList.get(i).getEmployeePassWord().compareTo(employeePassWord) == 0) {
+                        employeesMenu();
+                    }
+                }
+            }else {
+                            System.out.println("Invalid Password !");
+                            loginMenu();
+                        }
+                    } else if (choice == 3) {
+                        System.out.println("Thanks for now !! ");
+                        System.exit(0);
+                    } else {
+                        System.out.println("Invalid option! ");
+                        loginMenu();
+                    }
             }
-
-        } else if (choice == 3) {
-            System.out.println("Thanks for now !! ");
-            System.exit(0);
-        } else {
-            System.out.println("Invalid option! ");
-            loginMenu();
-        }
-    }
 
     public void customersLogin() {        // I don't have this method, it needs to push it.
 
@@ -615,7 +628,7 @@ public class HotelLogic {
 
     }
 
-    public void employeesMenu() {
+    public void employeesMenu() throws IOException {
 
         while (true) {
             menu();
@@ -628,6 +641,10 @@ public class HotelLogic {
                 bookingManagement();
             } else if (choice == 3) {
                 roomManagement();
+            } else if (choice == 4){
+                loginMenu();
+            } else {
+                employeesMenu();
             }
         }
 
@@ -638,6 +655,7 @@ public class HotelLogic {
         System.out.println("1- Customer management");
         System.out.println("2- Booking management");
         System.out.println("3- Room management");
+        System.out.println("4- Log out");
         System.out.println("Enter your choice:");
 
     }
