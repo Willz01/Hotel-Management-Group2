@@ -1,11 +1,23 @@
 package HotelManagementApplication_Group2;
 
-public class Customer {
+import java.io.Serializable;
+
+public class Customer implements Serializable {
     private String ssn;
     private String name;
+    private String userName;
     private String address;
     private String customerTelephoneNumber;
     private String email;
+    private int password;
+
+    public int getPassword() {
+        return password;
+    }
+
+    public void setPassword(int password) {
+        this.password = password;
+    }
 
     public String getSsn() {
         return ssn;
@@ -47,12 +59,14 @@ public class Customer {
         this.email = email;
     }
 
-    public Customer(String ssn, String name, String address, String customerTelephoneNumber, String email) {
+    public Customer(String ssn, String name, String address, String customerTelephoneNumber, String email,int password,String userName) {
         this.ssn = ssn;
         this.name = name;
         this.address = address;
         this.customerTelephoneNumber = customerTelephoneNumber;
         this.email = email;
+        this.password = password;
+        this.userName=userName;
     }
 
     @Override

@@ -1,20 +1,32 @@
 package HotelManagementApplication_Group2;
 
-public class Booking {
+import java.io.Serializable;
+import java.util.Date;
+
+public class Booking implements Serializable {
     private int bookingId;
-    private int checkInDate;
-    private int checkOutDate;
+    private Date checkInDate;
+    private Date checkOutDate;
     private double totalPrice;
+    private int roomNbr;
+
+    public Booking(int bookingId, Date checkInDate, Date checkOutDate, double totalPrice,int roomNbr) {
+        this.bookingId = bookingId;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
+        this.totalPrice = totalPrice;
+        this.roomNbr = roomNbr;
+    }
 
     public int getBookingId() {
         return bookingId;
     }
 
-    public int getCheckInDate() {
+    public Date getCheckInDate() {
         return checkInDate;
     }
 
-    public int getCheckOutDate() {
+    public Date getCheckOutDate() {
         return checkOutDate;
     }
 
@@ -22,11 +34,8 @@ public class Booking {
         return totalPrice;
     }
 
-    public Booking(int bookingId, int checkInDate, int checkOutDate, double totalPrice) {
-        this.bookingId = bookingId;
-        this.checkInDate = checkInDate;
-        this.checkOutDate = checkOutDate;
-        this.totalPrice = totalPrice;
+    public int getRoomNbr() {
+        return roomNbr;
     }
 
     @Override

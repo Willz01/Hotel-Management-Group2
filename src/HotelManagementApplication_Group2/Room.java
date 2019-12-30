@@ -1,6 +1,8 @@
 package HotelManagementApplication_Group2;
 
-public class Room {
+import java.io.Serializable;
+
+public class Room implements Serializable {
     private int roomNumber;
     private String typeOfBed;
     private boolean hasBalcony;
@@ -27,7 +29,7 @@ public class Room {
         return hasBalcony;
     }
 
-    public boolean getBooked (){
+    public boolean getBooked() {
         return booked;
     }
 
@@ -62,7 +64,9 @@ public class Room {
 
     @Override
     public String toString() {
-        String isBookedStatus =  booked == true ? " Booked" : " Available ";
-        return "Room number=" + roomNumber + " ,Room:" + isBookedStatus +",Price per night"+price;
+        String isBookedStatus = booked == true ? " Booked" : " Available ";
+        return   "\u001b[34m"+"|"+"\u001b[0m"
+                + roomNumber +"\t\t\t\t" + isBookedStatus + "\t\t\t" + price+"\t" +
+                "\u001b[34m"+  "|" + "\u001b[0m";
     }
 }
