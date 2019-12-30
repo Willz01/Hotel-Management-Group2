@@ -21,8 +21,8 @@ public class HotelLogic {
 
 
     public HotelLogic() {
-        // populateRoomArrayList();                //Here in the problem when I call this method so the java.io.NotSerializableException: HotelManagementApplication_Group2.Room happened.
-        // testInformation();                       //User these two calls to create a database one one time. So that why I keep them here as a comment
+//         populateRoomArrayList();                //Here in the problem when I call this method so the java.io.NotSerializableException: HotelManagementApplication_Group2.Room happened.
+//         testInformation();                       //User these two calls to create a database one one time. So that why I keep them here as a comment
         load();
     }
     // menu methods.
@@ -194,6 +194,7 @@ public class HotelLogic {
         System.out.println("1> Add booking");
         System.out.println("2> Cancel booking");
         System.out.println("3> View all booking");
+        System.out.println("4> Edit booking");
         System.out.println("0> Return to the menu ");
         System.out.println("=== ==== === === === === === ===");
         System.out.println();
@@ -209,7 +210,9 @@ public class HotelLogic {
                 cancelBooking();
             } else if (choice == 3) {
                 viwAllBooking();
-            } else if (choice == 0) {
+            } else if (choice == 4) {
+                editBookingAsEmployee();
+            }else if (choice ==0){
                 return;
             }
         } catch (NumberFormatException | IOException e) {
@@ -621,7 +624,6 @@ public class HotelLogic {
         return roomNbrs;
     }
 
-
     public void viwAllBooking() {
         if (bookings == null) {
             System.out.println("There is no booking in the hotel");
@@ -670,6 +672,162 @@ public class HotelLogic {
         save();
     }
 
+    private boolean checkDates(Date checkIn, Date checkOut) {
+
+        if (checkOut.before(checkIn) ||
+                checkOut.equals(checkIn) ||
+                checkIn.before(new Date(System.currentTimeMillis())) ||
+                checkOut.before(new Date(System.currentTimeMillis()))) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private void editBookingAsEmployee ( ) throws IOException {
+        Date CheckDate;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String date;
+        int choice =0;
+        int bookingId;
+        int bookingNumber =0;
+        System.out.println("Enter booking id: ");
+        bookingId = input.nextInt();
+
+        for (int i = 0; i <bookings.size(); i++) {
+            if (bookingId == bookings.get(i).getBookingId()){
+                bookingId = bookingNumber;
+                System.out.println("Information about the booking");
+                System.out.println("=== === === === === === === === === === === === ");
+                System.out.println(bookings.get(bookingNumber));
+                System.out.println("=== === === === === === === === === === === === ");
+                System.out.println("Which information do you want to change ");
+
+                while (choice !=-1){
+                    System.out.print("\n\n" +
+                            "[1] Check in date\n" +
+                            "[2] Check out date\n" +
+                            "[3] Change Entire booking\n" +
+                            "[4] Back to menu \n" +
+                            "Enter your choice: ");
+                    try {
+                        choice = input.nextInt();
+                    }catch (Exception e){
+                        System.out.println("Please choose a number from the menu");
+                        input.next();
+                        continue;
+                    }
+                    switch (choice){
+                        case 1:{
+                            System.out.print("Check in date for this booking is :\t");
+                            System.out.print(bookings.get(bookingNumber).getCheckInDate());
+                            input.nextLine();
+                            System.out.println("Enter new check in date (yyyy-MM-dd)");
+                            date  = input.nextLine();
+                            try {
+                                CheckDate = dateFormat.parse(date);
+                            } catch (ParseException e) {
+                                System.out.println("\nInvalid Date\n");
+                                return;
+                            }
+                            for (int j = 0; j <bookings.size() ; j++) {
+                                LinkedList<Integer> list = viewAvailableRoomDate(CheckDate, bookings.get(bookingNumber).getCheckOutDate(),
+                                        false, bookings.get(bookingNumber).getBookingId());
+                                if (list != null && !list.contains((bookings.get(bookingNumber).getRoomNbr()))){
+                                    if (!checkDates(CheckDate,bookings.get(bookingNumber).getCheckOutDate())){
+                                        System.out.println("= == === ==== === == =");
+                                        System.out.println("This date is not possible");
+                                        System.out.println("= == === ==== === == =");
+                                        System.out.println();
+                                        return;
+                                    }
+                                    bookings.get(bookingNumber).setCheckInDate(CheckDate);
+                                    updateTotalpriceBooking(bookings.get(bookingNumber));
+                                    new ReadAndWrite().write(bookingId, CheckDate, bookings.get(i).getCheckOutDate(),
+                                            bookings.get(bookingNumber).getRoomNbr(), true);
+                                }else {
+                                    System.out.println("The date is not available ");
+                                    viewAvailableRoomDate(CheckDate, bookings.get(bookingNumber).getCheckOutDate(),
+                                            true, bookings.get(bookingNumber).getBookingId());
+                                }
+
+                            }
+                            break;
+                        }
+                        case 2:{
+                            System.out.println("Check out date for this booking: \t");
+                            System.out.print(bookings.get(bookingNumber).getCheckOutDate());
+                            input.nextLine();
+                            System.out.println("Enter new check out date (yyyy-MM-dd)");
+                            date = input.nextLine();
+                            try {
+                                CheckDate = dateFormat.parse(date);
+                            } catch (ParseException e) {
+                                System.out.println("\nInvalid Date\n");
+                                return;
+                            }
+                            LinkedList<Integer> list = viewAvailableRoomDate(bookings.get(bookingNumber).getCheckInDate(),
+                                    CheckDate, false,  bookings.get(bookingNumber).getBookingId());
+                            if (list!=null && !list.contains(bookings.get(bookingNumber).getRoomNbr())){
+                                if (!checkDates(bookings.get(bookingNumber).getCheckInDate(),CheckDate)){
+                                    System.out.println("= == === ==== === == =");
+                                    System.out.println("This date is not possible");
+                                    System.out.println("= == === ==== === == =");
+                                    System.out.println();
+                                    return;
+                                }
+                                bookings.get(bookingNumber).setCheckOutDate(CheckDate);
+                                updateTotalpriceBooking(bookings.get(bookingNumber));
+                                new ReadAndWrite().write(bookingId, CheckDate, bookings.get(i).getCheckOutDate(),
+                                        bookings.get(bookingNumber).getRoomNbr(), true);
+                            }else {
+                                System.out.println("\u001b[33m"+"The date is not available "+"\u001b[0m");
+                                viewAvailableRoomDate(bookings.get(bookingNumber).getCheckInDate(), CheckDate, true,
+                                        bookings.get(bookingNumber).getBookingId());
+                            }
+                        }
+                        break;
+                        case 3: {
+                            input.nextLine();
+                            addNewBookingAsEmployee();
+                            try {
+                                for (Booking booking : bookings){
+                                    if (booking.getBookingId() == bookingNumber){
+                                        bookings.remove(booking);
+                                        System.out.println("\u001b[33m"+
+                                                "The booking is removed from the system"
+                                                +"\u001b[0m");
+                                        break;
+                                    }
+                                }
+                            }catch (ConcurrentModificationException e){
+                                System.out.println("\u001b[33m"+  "Something went wrong"+  "\u001b[0m");
+                                continue;
+                            }
+                        }
+                        break;
+                        case 4:{
+                            choice = -1;
+                            break;
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+    private void updateTotalpriceBooking(Booking booking) {
+        int nbrOfDays = (int) ((booking.getCheckOutDate().getTime() - booking.getCheckInDate().getTime()) / (1000 * 60 * 60 * 24));
+
+        for (Room room : rooms) {
+            if (room.getRoomNumber() == booking.getRoomNbr()) {
+                booking.setTotalPrice((room.getPrice() * nbrOfDays));
+            }
+        }
+        System.out.println("\u001b[33m"+"\nThe booking updated\n"+"\u001b[0m");
+
+    }
     //Room methods.
 
     public void editRoomInformation() {

@@ -19,6 +19,22 @@ public class Booking implements Serializable {
         this.roomNbr = roomNbr;
     }
 
+    public void setBookingId(int bookingId) {
+        this.bookingId = bookingId;
+    }
+
+    public void setCheckInDate(Date checkInDate) {
+        this.checkInDate = checkInDate;
+    }
+
+    public void setCheckOutDate(Date checkOutDate) {
+        this.checkOutDate = checkOutDate;
+    }
+
+    public void setRoomNbr(int roomNbr) {
+        this.roomNbr = roomNbr;
+    }
+
     public int getBookingId() {
         return bookingId;
     }
@@ -49,10 +65,10 @@ public class Booking implements Serializable {
     @Override
     public String toString() {
         return
-                "Room number"+
-                "Booking number =" + bookingId +
-                ", checkInDate='" + checkInDate + '\'' +
-                ", checkOutDate='" + checkOutDate + '\'' +
-                ", totalPrice=" + totalPrice;
+
+                "\u001b[34m"+"Booking number = " +"\u001b[0m" + bookingId +
+                        "\u001b[34m"+", checkInDate='" +"\u001b[0m"+ checkInDate + '\''
+                       + "\u001b[34m"+", checkOutDate='" + "\u001b[0m" + checkOutDate + '\'' +
+                        "\u001b[34m"+", totalPrice=" + "\u001b[0m" + totalPrice;
     }
 }
