@@ -10,6 +10,7 @@ public class Booking implements Serializable {
     private double totalPrice;
     private int roomNbr;
 
+
     public Booking(int bookingId, Date checkInDate, Date checkOutDate, double totalPrice,int roomNbr) {
         this.bookingId = bookingId;
         this.checkInDate = checkInDate;
@@ -37,6 +38,13 @@ public class Booking implements Serializable {
     public int getRoomNbr() {
         return roomNbr;
     }
+
+
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
 
     @Override
     public String toString() {

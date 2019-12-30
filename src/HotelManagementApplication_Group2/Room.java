@@ -65,6 +65,7 @@ public class Room implements Serializable {
     @Override
     public String toString() {
         String isBookedStatus = booked == true ? " Booked" : " Available ";
+        String isHasBalcony = hasBalcony == true ? " Yes" : " No ";
         return   "\u001b[34m"+"|"+"\u001b[0m"
                 + roomNumber +"\t\t\t\t" + isBookedStatus + "\t\t\t" + price+"\t" +
                 "\u001b[34m"+  "|" + "\u001b[0m";
