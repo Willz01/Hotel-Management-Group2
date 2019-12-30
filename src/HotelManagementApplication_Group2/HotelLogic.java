@@ -11,10 +11,10 @@ import java.util.Scanner;
 public class HotelLogic {
 
     private Scanner input = new Scanner(System.in);
-    private LinkedList<Employee> employees = new LinkedList<>();
-    private LinkedList<Customer> customers = new LinkedList<>();
-    private LinkedList<Booking> bookings = new LinkedList<>();
-    private LinkedList<Room> rooms = new LinkedList<>();
+    private LinkedList<HotelManagementApplication_Group2.Employee> employees = new LinkedList<>();
+    private LinkedList<HotelManagementApplication_Group2.Customer> customers = new LinkedList<>();
+    private LinkedList<HotelManagementApplication_Group2.Booking> bookings = new LinkedList<>();
+    private LinkedList<HotelManagementApplication_Group2.Room> rooms = new LinkedList<>();
 
     private String ssn;
     private Random random = new Random();
@@ -241,7 +241,7 @@ public class HotelLogic {
 
 
     // Customer methods.
-    public Customer addCustomer() {
+    public HotelManagementApplication_Group2.Customer addCustomer() {
         System.out.print("Customer's name: ");
         String customerName = input.nextLine();
         System.out.print("Customer's address: ");
@@ -256,7 +256,7 @@ public class HotelLogic {
 
         int customerPassword = random.nextInt(9999);
 
-        Customer customer = new Customer(ssn, customerName, customerAddress, customerTelephoneNumber,
+        HotelManagementApplication_Group2.Customer customer = new HotelManagementApplication_Group2.Customer(ssn, customerName, customerAddress, customerTelephoneNumber,
                 customerEmail, customerPassword, userName);       // Create new customer object and save it in the customers LinkedList
         customers.add(customer);
         save();                         // save the new customer in the database.
@@ -434,7 +434,7 @@ public class HotelLogic {
 
     //Booking methods.
 
-    public void addBooking(Employee employee) {
+    public void addBooking(HotelManagementApplication_Group2.Employee employee) {
 
     }
     //    public void addNewBookingAsEmployee() throws IOException {
@@ -712,7 +712,7 @@ public class HotelLogic {
         System.out.println("What is the price per night");
         double price = input.nextDouble();
 
-        Room room = new Room(roomNumber, typeOfBed, hasBalcony, false, price);
+        HotelManagementApplication_Group2.Room room = new HotelManagementApplication_Group2.Room(roomNumber, typeOfBed, hasBalcony, false, price);
         rooms.add(room);
 
         // add room to text file as data base to recall them if we restart the program.
@@ -786,7 +786,7 @@ public class HotelLogic {
     // Write, read methods and creating rooms, employees and customers to make text.
 
     public void save() {
-        ReadAndWrite readAndWrite = new ReadAndWrite();
+        HotelManagementApplication_Group2.ReadAndWrite readAndWrite = new HotelManagementApplication_Group2.ReadAndWrite();
         readAndWrite.saveUsersCustomer(customers);
         readAndWrite.saveUsersEmployee(employees);
         readAndWrite.saveBookings(bookings);
@@ -794,7 +794,7 @@ public class HotelLogic {
     }
 
     public void load() {
-        ReadAndWrite readAndWrite = new ReadAndWrite();
+        HotelManagementApplication_Group2.ReadAndWrite readAndWrite = new HotelManagementApplication_Group2.ReadAndWrite();
         customers = readAndWrite.readCustomers();
         employees = readAndWrite.readEmployees();
         bookings = readAndWrite.readBookings();
@@ -803,17 +803,17 @@ public class HotelLogic {
     }
 
     public void testInformation() {
-        Employee employee1 = new Employee("1234", "1234", "Muhannad ", "0768837489", 1);
+        HotelManagementApplication_Group2.Employee employee1 = new HotelManagementApplication_Group2.Employee("1234", "1234", "Muhannad ", "0768837489", 1);
         employees.add(employee1);
-        Employee employee2 = new Employee("4321", "4321", "Wills", "0768837489", 2);
+        HotelManagementApplication_Group2.Employee employee2 = new HotelManagementApplication_Group2.Employee("4321", "4321", "Wills", "0768837489", 2);
         employees.add(employee2);
 
 
-        Customer customer1 = new Customer("121212-1212", "Johan", "Kristianstad",
+        HotelManagementApplication_Group2.Customer customer1 = new HotelManagementApplication_Group2.Customer("121212-1212", "Johan", "Kristianstad",
                 "0722880025", "johan@gmail.se", 111, "johann");
         customers.add(customer1);
 
-        Customer customer2 = new Customer("999999-9999", "Adam", "Kristianstad",
+        HotelManagementApplication_Group2.Customer customer2 = new HotelManagementApplication_Group2.Customer("999999-9999", "Adam", "Kristianstad",
                 "0788226699", "adam@gmail.se", 111, "johan");
         customers.add(customer2);
 
@@ -821,27 +821,27 @@ public class HotelLogic {
     }
 
     public void populateRoomArrayList() {                   // Create 24 rooms
-        Room store_room = new Room(0, "Store room", false, true, 0);       // unused room but need for easy printing the ArryList.
+        HotelManagementApplication_Group2.Room store_room = new HotelManagementApplication_Group2.Room(0, "Store room", false, true, 0);       // unused room but need for easy printing the ArryList.
         rooms.add(store_room);
 
 
         for (int i = 1; i <= 6; i++) {
-            Room room = new Room(i, "Single bed", false, false, 300);
+            HotelManagementApplication_Group2.Room room = new HotelManagementApplication_Group2.Room(i, "Single bed", false, false, 300);
             rooms.add(room);
 
         }
         for (int i = 7; i <= 12; i++) {
-            Room room = new Room(i, "Single bed", true, false, 400);
+            HotelManagementApplication_Group2.Room room = new HotelManagementApplication_Group2.Room(i, "Single bed", true, false, 400);
             rooms.add(room);
 
         }
         for (int i = 13; i <= 18; i++) {
-            Room room = new Room(i, "Double bed", false, false, 450);
+            HotelManagementApplication_Group2.Room room = new HotelManagementApplication_Group2.Room(i, "Double bed", false, false, 450);
             rooms.add(room);
 
         }
         for (int i = 19; i <= 24; i++) {
-            Room room = new Room(i, "Double bed", true, false, 550);
+            HotelManagementApplication_Group2.Room room = new HotelManagementApplication_Group2.Room(i, "Double bed", true, false, 550);
             rooms.add(room);
         }
         save();
