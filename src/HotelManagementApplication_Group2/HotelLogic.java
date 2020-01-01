@@ -80,8 +80,22 @@ public class HotelLogic {
 
     }
 
-    public void customersLogin() {        // I don't have this method, it needs to push it.
+    public void customersLogin(){        // I don't have this method, it needs to push it.
+        System.out.printf("User name : ");
+        String name = input.nextLine();
+        System.out.printf("Password  : ");
+        int customerPassWord = input.nextInt();
 
+        if (customers.size() != 0) {
+            for (int i = 0; i < customers.size(); i++) {
+                if (customers.get(i).getName().equals(name) && customers.get(i).getPassword() == customerPassWord) {
+                    customerMenu();
+                }
+            }
+        } else {
+            System.out.println("Invalid Password !");
+            loginMenu();
+        }
     }
 
     public void employeesMenu() {
@@ -221,7 +235,20 @@ public class HotelLogic {
         }
     }
 
+    public void customerMenu(){
+        while (true){
+            int choice = input.nextInt();
+            input.nextLine();
 
+            if (choice == 1) {
+                
+            } else if (choice == 2) {
+
+            } else if (choice == 3) {
+
+            }
+        }
+    }
     // Customer methods.
     public HotelManagementApplication_Group2.Customer addCustomer() {
         System.out.print("Customer's name: ");
