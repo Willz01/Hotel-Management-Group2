@@ -13,8 +13,8 @@ public class Main {
         System.out.println("2- User name :4321"+ "Password 4321");
         System.out.println("===============================");
         System.out.println("Test information for customer log in");
-        System.out.println("1- User name: johann,  password: 111");
-        System.out.println("2- User name: johan,   password: 111");
+        System.out.println("1- User name: aaaa,  password: aaaa");
+        System.out.println("2- User name: xxxx,   password: xxxx");
         HotelLogic hotelMyApp = new HotelLogic();
         hotelMyApp.loginMenu();
 

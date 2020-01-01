@@ -9,13 +9,21 @@ public class Customer implements Serializable {
     private String address;
     private String customerTelephoneNumber;
     private String email;
-    private int password;
+    private String password;
 
-    public int getPassword() {
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(int password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
@@ -59,7 +67,7 @@ public class Customer implements Serializable {
         this.email = email;
     }
 
-    public Customer(String ssn, String name, String address, String customerTelephoneNumber, String email,int password,String userName) {
+    public Customer(String ssn, String name, String address, String customerTelephoneNumber, String email,String password,String userName) {
         this.ssn = ssn;
         this.name = name;
         this.address = address;
