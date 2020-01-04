@@ -19,6 +19,8 @@ public class Booking implements Serializable {
         this.roomNbr = roomNbr;
     }
 
+
+
     public void setBookingId(int bookingId) {
         this.bookingId = bookingId;
     }

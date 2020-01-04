@@ -16,8 +16,10 @@ public class HotelLogic {
     private LinkedList<HotelManagementApplication_Group2.Booking> bookings = new LinkedList<>();
     private LinkedList<HotelManagementApplication_Group2.Room> rooms = new LinkedList<>();
 
+
     private String ssn;
     private Random random = new Random();
+    boolean customerExist = true;
 
 
     public HotelLogic() {
@@ -121,11 +123,12 @@ public class HotelLogic {
             System.out.println("\u001b[34m" + "Welcome to our hotel" + "\u001b[0m");
             System.out.println("=====================");
             System.out.println();
-            System.out.println("1-View your booking");
-            System.out.println("2-Edit your booking");
-            System.out.println("3-Add new booking");
-            System.out.println("4-Cancel a booking");
-            System.out.println("0-Sign out");
+            System.out.println("1- View your booking");
+            System.out.println("2- Edit your booking");
+            System.out.println("3- Add new booking");
+            System.out.println("4- Cancel a booking");
+            System.out.println("5- Change your personal information");
+            System.out.println("0- Sign out");
             System.out.println();
             System.out.println("=====================");
             System.out.print("Enter your choice: ");
@@ -137,6 +140,7 @@ public class HotelLogic {
                 input.nextLine();
             } catch (Exception e) {
                 System.out.println("Invalid input, please enter a number from the menu");
+                input.next();
                 continue;
             }
             if (choice == 1) {
@@ -147,6 +151,8 @@ public class HotelLogic {
                 addBooking();
             } else if (choice == 4) {
                 cancelBookingAsCustomer();
+            } else if (choice == 5) {
+                editCustomerInformationAsCustomer();
             } else if (choice == 0) {
                 System.out.println("\u001b[35m" + "***** Thank for your visiting *****" + "\u001b[0m");
 
@@ -174,7 +180,7 @@ public class HotelLogic {
             } else if (choice == 3) {
                 roomManagement();
             } else if (choice == 0) {
-                System.out.println("\u001b[35m" +"Thanks for your service"+"\u001b[0m");
+                System.out.println("\u001b[35m" + "Thanks for your service" + "\u001b[0m");
                 save();
                 return;
             }
@@ -302,8 +308,10 @@ public class HotelLogic {
         }
     }
 
+    //Customer methods
+
     private void addNewCustomer() {
-        boolean isEmpty = customers.isEmpty();
+
         boolean done = false;
         while (!done) {
             System.out.println("Enter customer's SSN, SSN must to be 12 digit numbers");
@@ -324,8 +332,11 @@ public class HotelLogic {
                     System.out.println("-- -- -- -- -- -- -- -- -- -- -- --");
                     System.out.println("Enter another SSN or 0 to abort");
                     done = false;
+
+
                 } else {
                     done = true;
+
                 }
             }
         }
@@ -365,19 +376,19 @@ public class HotelLogic {
         System.out.println("\u001b[34m" + "---- All customers in the hotel ----" + "\u001b[0m");
         System.out.println();
 
-        System.out.format("\u001B[33m"+"-----------------------+-------------+---------------------------+------------------+--------------------------+%n"+"\u001b[0m");
-        System.out.format("\u001B[33m"+"Customer name          |SSN          |Address                    |Telephone number  |Email                    |%n"+"\u001b[0m");
-        System.out.format("\u001B[33m"+"-----------------------+-------------+---------------------------+------------------+--------------------------+%n"+"\u001b[0m");
-        for (int i = 0; i <customers.size(); i++) {
-            System.out.printf("| %-20s |%-12s | %-25s | %-16s | %-23s |%n",customers.get(i).getName(),customers.get(i).getSsn(),
-                    customers.get(i).getAddress(),customers.get(i).getCustomerTelephoneNumber(),customers.get(i).getEmail());
+        System.out.format("\u001B[33m" + "-----------------------+-------------+---------------------------+------------------+--------------------------+%n" + "\u001b[0m");
+        System.out.format("\u001B[33m" + "Customer name          |SSN          |Address                    |Telephone number  |Email                     |%n" + "\u001b[0m");
+        System.out.format("\u001B[33m" + "-----------------------+-------------+---------------------------+------------------+--------------------------+%n" + "\u001b[0m");
+        for (int i = 0; i < customers.size(); i++) {
+            System.out.printf("| %-20s |%-12s | %-25s | %-16s | %-24s |%n", customers.get(i).getName(), customers.get(i).getSsn(),
+                    customers.get(i).getAddress(), customers.get(i).getCustomerTelephoneNumber(), customers.get(i).getEmail());
         }
-        System.out.format("\u001B[33m"+"-----------------------+-------------+---------------------------+------------------+--------------------------+%n"+"\u001b[0m");
+        System.out.format("\u001B[33m" + "-----------------------+-------------+---------------------------+------------------+--------------------------+%n" + "\u001b[0m");
     }
 
     private void search() {
-        System.out.print("Customers name : ");
-        String name = input.nextLine();
+        System.out.print("Enter SSN, Telephone number or customer's name: ");
+        String userInput = input.nextLine();
         int bookingID = 0;
         boolean done = false;
         while (!done) {
@@ -386,24 +397,32 @@ public class HotelLogic {
                 bookingID = input.nextInt();
                 input.nextLine();
                 done = true;
-                for (int i = 0; i < customers.size(); i++) {
-                    if (customers.get(i).getName().equalsIgnoreCase(name) && bookings.get(i).getBookingId() == bookingID) {
-                        System.out.println("++++++++++++++++++++++++++");
-                        System.out.println("Customer's info : ");
-                        System.out.println("Name     : " + customers.get(i).getName());
-                        System.out.println("SSN      : " + customers.get(i).getSsn());
-                        System.out.println("Address  : " + customers.get(i).getAddress());
-                        System.out.println("++++++++++++++++++++++++++");
-                        System.out.println("Customer's booking info : ");
-                        System.out.println("Booking ID      : " + bookings.get(i).getBookingId());
-                        System.out.println("Check in date   : " + bookings.get(i).getCheckInDate());
-                        System.out.println("Check out date  : " + bookings.get(i).getCheckOutDate());
-                        System.out.println("Room number     : " + rooms.get(i).getRoomNumber());
-                        System.out.println("Price per night : " + rooms.get(i).getPrice() + " SEK");
-                        System.out.println("Total price     : " + bookings.get(i).getTotalPrice() + " SEK");
-                        System.out.println("++++++++++++++++++++++++++");
+                if (bookings.size() == 0) {
+                    System.out.println("---- There are no booking in the hotel right now ----");
+                } else {
+                    for (int i = 0; i < customers.size(); i++) {
+                        if ((customers.get(i).getName().equalsIgnoreCase(userInput) ||
+                                customers.get(i).getSsn().equalsIgnoreCase(userInput) ||
+                                customers.get(i).getCustomerTelephoneNumber().equalsIgnoreCase(userInput)) &&
+                                bookings.get(i).getBookingId() == bookingID) {
+                            System.out.println("++++++++++++++++++++++++++");
+                            System.out.println("\u001b[34m" + "Customer's info : " + "\u001b[0m");
+                            System.out.println("Name     : " + customers.get(i).getName());
+                            System.out.println("SSN      : " + customers.get(i).getSsn());
+                            System.out.println("Address  : " + customers.get(i).getAddress());
+                            System.out.println("++++++++++++++++++++++++++");
+                            System.out.println("\u001b[34m" + "Customer's booking info : " + "\u001b[0m");
+                            System.out.println("Booking ID      : " + bookings.get(i).getBookingId());
+                            System.out.println("Check in date   : " + bookings.get(i).getCheckInDate());
+                            System.out.println("Check out date  : " + bookings.get(i).getCheckOutDate());
+                            System.out.println("Room number     : " + rooms.get(i).getRoomNumber());
+                            System.out.println("Price per night : " + rooms.get(i).getPrice() + " SEK");
+                            System.out.println("Total price     : " + bookings.get(i).getTotalPrice() + " SEK");
+                            System.out.println("++++++++++++++++++++++++++");
+                        }
                     }
                 }
+
             } catch (InputMismatchException e) {
                 input.nextLine();
                 System.out.println("Invalid booking ID, Try again !");
@@ -415,13 +434,18 @@ public class HotelLogic {
     private void editCustomerInformation() {
         int oneOrTwo;
         int customerNumber;                                                                                     // Modify information for customer which have booking in the hotel
-        System.out.println("--- ---Change the information of customers currently in the hotel--- ---");
+        System.out.println("--- ---Change the information of current customers in the hotel--- ---");
         System.out.println();
 
-        for (int i = 0; i < customers.size(); i++) {
-            System.out.println("[" + i + "]" + customers.get(i));
-        }
+        System.out.format("\u001B[33m" + "-------+-----------------------+-------------+---------------------------+------------------+--------------------------+%n" + "\u001b[0m");
+        System.out.format("\u001B[33m" + " Index |Customer name          |SSN          |Address                    |Telephone number  |Email                     |%n" + "\u001b[0m");
+        System.out.format("\u001B[33m" + "-------+-----------------------+-------------+---------------------------+------------------+--------------------------+%n" + "\u001b[0m");
 
+        for (int i = 0; i < customers.size(); i++) {
+            System.out.printf("| %-4s | %-21s |%-12s | %-25s | %-16s | %-24s |%n",i, customers.get(i).getName(), customers.get(i).getSsn(),
+                    customers.get(i).getAddress(), customers.get(i).getCustomerTelephoneNumber(), customers.get(i).getEmail());
+        }
+        System.out.format("\u001B[33m" + "-------+-----------------------+-------------+---------------------------+------------------+--------------------------+%n" + "\u001b[0m");
         try {
 
             System.out.println("Which customer information do you want to change? (enter a customer number)");
@@ -500,6 +524,116 @@ public class HotelLogic {
 
     }
 
+    private void editCustomerInformationAsCustomer() {
+
+        int choice = 0;
+        System.out.println("**** *** ** * ** *** ****");
+        System.out.println("----- Edit personal information  ----- ");
+        System.out.print(" Please enter your user name again: ");
+        String userName = input.nextLine();
+        System.out.print("Your password: ");
+        String password = input.nextLine();
+
+        for (Customer customer : customers) {
+            if (customer.getUserName().equals(userName) && customer.getPassword().equals(password)) {
+                System.out.println();
+                System.out.println("\u001b[35m\t" + "---- This is your current information -----" + "\u001b[0m\t");
+                System.out.println("Name: " + customer.getName());
+                System.out.println("Address: " + customer.getAddress());
+                System.out.println("Telephone number: " + customer.getCustomerTelephoneNumber());
+                System.out.println("Email: " + customer.getEmail());
+
+                while (true) {
+                    System.out.println();
+                    System.out.println("Which information do you want to change? ");
+                    System.out.println("1- Change your address");
+                    System.out.println("2- Change your Telephone number");
+                    System.out.println("3- Change your email");
+                    System.out.println("4- Change your user name");
+                    System.out.println("5- Change your password");
+                    System.out.println("0- Back to the menu");
+                    System.out.print("Enter your choice: ");
+
+
+                    System.out.println(customer.getName() + "   " + customer.getPassword() + "   " + customer.getPassword() + "   " + customer.getAddress() + "   " + customer.getCustomerTelephoneNumber() + "   " + customer.getEmail());
+                    try {
+
+                        String choiceString = input.nextLine();
+                        choice = Integer.parseInt(choiceString);
+
+                    } catch (Exception e) {
+                        System.out.println("Please choose a number from the menu");
+                        return;
+                    }
+                    switch (choice) {
+                        case 1: {
+
+                            System.out.println("Enter the new address: ");
+
+                            String newAddress = input.nextLine();
+                            customer.setAddress(newAddress);
+                            System.out.println("---- Your address has been changed successfully -----");
+                            break;
+                        }
+                        case 2: {
+
+                            System.out.println("Enter your new telephone number: ");
+
+                            String newTelephoneNumber = input.nextLine();
+                            customer.setCustomerTelephoneNumber(newTelephoneNumber);
+                            System.out.println("---- Your phone number has been changed successfully -----");
+                            break;
+                        }
+                        case 3: {
+
+                            System.out.println("Enter your new email: ");
+
+                            String newEmail = input.nextLine();
+                            customer.setEmail(newEmail);
+                            System.out.println("---- Your email has been changed successfully -----");
+                            break;
+                        }
+                        case 4: {
+
+                            System.out.println("Enter your new user name: ");
+                            input.next();
+                            String newUserName = input.nextLine();
+                            System.out.println("Enter it again: ");
+                            String newUserName2 = input.nextLine();
+                            if (newUserName.equals(newUserName2)) {
+                                customer.setUserName(newUserName2);
+                                break;
+                            }
+
+
+                        }
+                        case 5: {
+
+                            System.out.println("Enter your new password: ");
+                            input.next();
+                            String newPassword = input.nextLine();
+                            System.out.println();
+                            customer.setPassword(newPassword);
+                            break;
+                        }
+                        case 0: {
+                            System.out.println("***** **** *** ** * ** *** **** *****");
+                            System.out.println("Thanks for your visiting!");
+                            System.out.println("***** **** *** ** * ** *** **** *****");
+                            return;
+                        }
+                    }
+
+                }
+            } else {
+                System.out.println();
+                System.out.println("---- ----your password or user name is not correct ---- ----");
+                System.out.println();
+                return;
+            }
+        }
+//        save();
+    }
 
     //Booking methods.
 
@@ -531,15 +665,18 @@ public class HotelLogic {
                         System.out.printf("Total price %.2f\n ", booking.getTotalPrice());
                     }
 
-                } else if (customerBookinId != booking.getBookingId()) {
-                    System.out.println("*** *** *** **** *** *** ");
-                    System.out.println("No booking found with this booking number: " + customerBookinId);
-                    System.out.println("*** *** *** **** *** *** ");
-                    System.out.println();
                 }
             }
+            if (customerBookinId != booking.getBookingId()) {
+                System.out.println("*** *** *** **** *** *** ");
+                System.out.println("No booking found with this booking number: " + customerBookinId);
+                System.out.println("*** *** *** **** *** *** ");
+                System.out.println();
+            }
+
         }
     }
+
 
     private void addBooking() {
 
@@ -559,7 +696,6 @@ public class HotelLogic {
         System.out.println("Double beds & balcony          : (19 - 24) ");
         System.out.println("----------------------------------------------------");
         System.out.println();
-        addNewCustomer();
 
 
         do {
@@ -668,17 +804,14 @@ public class HotelLogic {
             return;
         }
 
-        int lastBookId = 0;
-        if (!bookings.isEmpty()) {
-            lastBookId = bookings.getLast().getBookingId();
-        }
 
-        int bookId = (lastBookId + 1);
+        Random rand = new Random();
+        int bookingNumber = rand.nextInt(9999);
 
         // Print confirmation info
 
         System.out.println("\n\t\t***Confirmation***");
-        System.out.println("Your booking id is: " + bookId);
+        System.out.println("Your booking id is: " + bookingNumber);
         System.out.println("Thr room that you chose has the number: " + temp.getRoomNumber());
         System.out.println("Your check in will be at: " + checkinDate);
         System.out.println("Your check out will be at: " + checkoutDate);
@@ -689,8 +822,9 @@ public class HotelLogic {
 
         // check input for confirmation and create new booking, print in logg and add booking to customer list of bookings
         if (choice.equalsIgnoreCase("y")) {
-            Booking booking = new Booking(bookId, checkinDate, checkoutDate, price, roomNumber);
+            Booking booking = new Booking(bookingNumber, checkinDate, checkoutDate, price, roomNumber);
             booking.setTotalPrice(price);
+
 
             bookings.add(booking);
             save();
@@ -1145,9 +1279,10 @@ public class HotelLogic {
     private void addNewRoom() {
 
         boolean hasBalcony = false;
-        System.out.println("////You adding new room to the hotel/////");
-        System.out.println("Enter the room number do you want to add");
-        int roomNumber = Integer.parseInt(input.nextLine());
+        int newRoomNumber = rooms.size() + 1;
+        System.out.println("The room number will be: " + newRoomNumber);
+        System.out.println("\u001b[35m" + "//// Adding new room to the hotel/////" + "\u001b[0m");
+
 
         System.out.println("Which type of bed the room have? (Single bed or double bed)");
         String typeOfBed = input.nextLine();
@@ -1162,18 +1297,50 @@ public class HotelLogic {
             hasBalcony = false;
         }
 
-        System.out.println("What is the price per night");
-        double price = input.nextDouble();
+        System.out.println("How much does the room cost per night?");
 
-        Room room = new Room(roomNumber, typeOfBed, hasBalcony, false, price);
-        rooms.add(room);
+        double price;
+        while (true) {
+            try {
+                price = input.nextDouble();
+                break;
+            } catch (Exception e) {
+                System.out.println("Please enter the room cost per night");
+                input.next();
+            }
+        }
+        input.nextLine();
+        System.out.println("\n\t\t**** Confirmation ****");
+        System.out.println("The new room number: " + newRoomNumber);
+        System.out.println("Type of bed: " + typeOfBed);
+        if (hasBalcony) {
+            System.out.println("The room has a balcony");
+        } else {
+            System.out.println("The has not a balcony");
+        }
+        System.out.println("The price per night: " + price);
+        System.out.println("**** *** **** *** **** *** **** ***");
+        System.out.println();
+        System.out.println("\n All information are correct? (Y/N)");
+        String answer = input.nextLine();
+        if (answer.equalsIgnoreCase("y")){
+            System.out.println("Thank you");
+            System.out.println("You added new room to the hotel");
+            Room room = new Room(newRoomNumber, typeOfBed, hasBalcony, false, price);
+            rooms.add(room);
 
-        // add room to text file as data base to recall them if we restart the program.
-        // it is worked as a database to the room objects.
+            // add room to text file as data base to recall them if we restart the program.
+            // it is worked as a database to the room objects.
+            save();
+        }else if (answer.equalsIgnoreCase("n")){
+            System.out.println("The room did not add to the system.");
+            System.out.println("Thank you");
+        }else {
+            System.out.println("Invalid input!");
+        }
 
-        System.out.println("Thank you");
-        System.out.println("You added new room to the hotel");
-        save();
+
+
 
 
     }
@@ -1254,6 +1421,8 @@ public class HotelLogic {
         rooms = readAndWrite.readRooms();
 
     }
+
+    // these methods uses only one time to create testInformation and these information uses as a database
 
     private void testInformation() {
         Employee employee1 =

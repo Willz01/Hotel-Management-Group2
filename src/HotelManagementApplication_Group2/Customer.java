@@ -11,6 +11,15 @@ public class Customer implements Serializable {
     private String email;
     private String password;
 
+    public Customer(String ssn, String name, String address, String customerTelephoneNumber, String email, String password, String userName) {
+        this.ssn = ssn;
+        this.name = name;
+        this.address = address;
+        this.customerTelephoneNumber = customerTelephoneNumber;
+        this.email = email;
+        this.password = password;
+        this.userName = userName;
+    }
 
     public String getUserName() {
         return userName;
@@ -68,15 +77,6 @@ public class Customer implements Serializable {
         this.email = email;
     }
 
-    public Customer(String ssn, String name, String address, String customerTelephoneNumber, String email, String password, String userName) {
-        this.ssn = ssn;
-        this.name = name;
-        this.address = address;
-        this.customerTelephoneNumber = customerTelephoneNumber;
-        this.email = email;
-        this.password = password;
-        this.userName = userName;
-    }
 
     @Override
     public String toString() {
