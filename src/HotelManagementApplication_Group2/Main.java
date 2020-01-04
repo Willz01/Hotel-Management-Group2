@@ -15,6 +15,7 @@ public class Main {
         System.out.println("Test information for customer log in");
         System.out.println("1- User name: aaaa,  password: aaaa");
         System.out.println("2- User name: xxxx,   password: xxxx");
+        
         HotelLogic hotelMyApp = new HotelLogic();
         hotelMyApp.loginMenu();
 
