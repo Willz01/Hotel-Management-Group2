@@ -9,17 +9,25 @@ public class Booking implements Serializable {
     private Date checkOutDate;
     private double totalPrice;
     private int roomNbr;
+    private String ssn;
 
 
-    public Booking(int bookingId, Date checkInDate, Date checkOutDate, double totalPrice,int roomNbr) {
+    public Booking(int bookingId, Date checkInDate, Date checkOutDate, double totalPrice,int roomNbr, String ssn) {
         this.bookingId = bookingId;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
         this.totalPrice = totalPrice;
         this.roomNbr = roomNbr;
+        this.ssn = ssn;
     }
 
+    public String getSsn() {
+        return ssn;
+    }
 
+    public void setSsn(String ssn) {
+        this.ssn = ssn;
+    }
 
     public void setBookingId(int bookingId) {
         this.bookingId = bookingId;

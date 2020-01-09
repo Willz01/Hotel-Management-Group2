@@ -102,6 +102,17 @@ public class ReadAndWrite {
         writeList(bookings, file);
     }
 
+    public void  saveBookingHistory(LinkedList<Booking> bookingHistory) {
+        File file = new File("bookingHistory.txt");
+        writeList(bookingHistory, file);
+    }
+
+    public LinkedList readBookingHistory (){
+        File file = new File("bookingHistory.txt");
+        LinkedList list = read(file);
+        return list;
+    }
+
     public LinkedList readCustomers() {
         File file = new File("customers.txt");
         LinkedList list = read(file);
