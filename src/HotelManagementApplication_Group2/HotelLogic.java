@@ -32,10 +32,10 @@ public class HotelLogic {
         while (true) {
             System.out.println();
             System.out.println("======================");
-            System.out.println("Welcome to our hotel ");
+            System.out.println("\u001b[34m" + "WELCOME TO G2 HOTEL " + "\u001b[0m");
             System.out.println("======================");
             System.out.println();
-            System.out.println("====Login menu===");
+            System.out.println("====LOGIN MENU===");
             System.out.println("1> Customer     |");
             System.out.println("2> Employee     |");
             System.out.println("3> Exit         |");
@@ -123,17 +123,17 @@ public class HotelLogic {
         int choice;
         while (true) {
             System.out.println("=====================");
-            System.out.println("\u001b[34m" + "Welcome to our hotel" + "\u001b[0m");
+            System.out.println("\u001b[36m" + "WELCOME TO OUR HOTEL" + "\u001b[0m");
             System.out.println("=====================");
             System.out.println();
-            System.out.println("1- View your booking");
-            System.out.println("2- Edit your booking");
-            System.out.println("3- Add new booking");
-            System.out.println("4- Cancel a booking");
-            System.out.println("5- Change your personal information");
-            System.out.println("6- View booking history");
-            System.out.println("7- View available rooms");
-            System.out.println("0- Sign out");
+            System.out.println("1-> View your booking");
+            System.out.println("2-> Edit your booking");
+            System.out.println("3-> Add new booking");
+            System.out.println("4-> Cancel a booking");
+            System.out.println("5-> Change your personal information");
+            System.out.println("6-> View booking history");
+            System.out.println("7-> View available rooms");
+            System.out.println("0-> Sign out");
             System.out.println();
             System.out.println("=====================");
             System.out.print("Enter your choice: ");
@@ -160,10 +160,9 @@ public class HotelLogic {
                 editCustomerInformationAsCustomer();
             } else if (choice == 6) {
                 viewBookingHistory();
-            } else if (choice ==7){
+            } else if (choice == 7) {
                 availableRooms();
-            }
-            else if (choice == 0) {
+            } else if (choice == 0) {
                 System.out.println();
                 System.out.println("\u001b[35m" + "***** Thank for your visiting *****" + "\u001b[0m");
                 System.out.println();
@@ -201,11 +200,11 @@ public class HotelLogic {
 
     private void menu() {
         System.out.println("=== ==== === === === === === ===");
-        System.out.println("----- Menu of employee ---- ");
-        System.out.println("1- Customer management");
-        System.out.println("2- Booking management");
-        System.out.println("3- Room management");
-        System.out.println("0- Back to log in menu");
+        System.out.println("-------- MENU -------- ");
+        System.out.println("1-> Customer management");
+        System.out.println("2-> Booking management");
+        System.out.println("3-> Room management");
+        System.out.println("0-> Back to login menu");
         System.out.println("=== ==== === === === === === ===");
         System.out.print("Enter your choice:  ");
 
@@ -251,11 +250,11 @@ public class HotelLogic {
 
     private void customerManagement() {
         System.out.println("=== ==== === === === === === ===");
-        System.out.println("1> Add new customer");
-        System.out.println("2> List of customers");
-        System.out.println("3> Search a customer");
-        System.out.println("4> Edit customer's information ");
-        System.out.println("0> Return to the menu ");
+        System.out.println("1-> Add new customer");
+        System.out.println("2-> List of customers");
+        System.out.println("3-> Search a customer");
+        System.out.println("4-> Edit customer's information ");
+        System.out.println("0-> Return to the menu ");
         System.out.println("=== ==== === === === === === ===");
         System.out.println();
 
@@ -696,12 +695,12 @@ public class HotelLogic {
             if (booking.getSsn().equalsIgnoreCase(inloggedCustomer.getSsn())) {
 
                 System.out.println();
-                System.out.println("\u001b[35m\t" + "---- Your booking information ----" + "\u001b[0m");
-                System.out.println("Booking id: " + booking.getBookingId());
-                System.out.println("Check in: " + booking.getCheckInDate());
-                System.out.println("Check Out: " + booking.getCheckOutDate());
-                System.out.println("Room number: " + booking.getRoomNbr());
-                System.out.printf("Total price %.2f\n ", booking.getTotalPrice());
+                System.out.println("\u001b[35m\t" + "---- BOOKING INFORMATION----" + "\u001b[0m");
+                System.out.println("Booking id  : " + booking.getBookingId());
+                System.out.println("Check in    : " + booking.getCheckInDate());
+                System.out.println("Check Out   : " + booking.getCheckOutDate());
+                System.out.println("Room number : " + booking.getRoomNbr());
+                System.out.println("Total price : " + booking.getTotalPrice());
                 check = false;
             }
 
@@ -720,14 +719,14 @@ public class HotelLogic {
             if (booking.getSsn().equalsIgnoreCase(inloggedCustomer.getSsn())) {
                 System.out.println();
                 System.out.println("***** **** *** ** * *** **** *****");
-                System.out.println("\u001b[35m\t" + "Your booking history" + "\u001b[0m");
+                System.out.println("\u001b[35m\t" + "BOOKING HISTORY" + "\u001b[0m");
                 System.out.println("***** **** *** ** * *** **** *****");
                 System.out.println();
-                System.out.println("Booking id: " + booking.getBookingId());
-                System.out.println("Check in: " + booking.getCheckInDate());
-                System.out.println("Check Out: " + booking.getCheckOutDate());
-                System.out.println("Room number: " + booking.getRoomNbr());
-                System.out.printf("Total price %.2f\n ", booking.getTotalPrice());
+                System.out.println("Booking id        : " + booking.getBookingId());
+                System.out.println("Check in          : " + booking.getCheckInDate());
+                System.out.println("Check Out         : " + booking.getCheckOutDate());
+                System.out.println("Room number       : " + booking.getRoomNbr());
+                System.out.println("Total price       : " + booking.getTotalPrice());
                 System.out.println("***** **** *** ** * *** **** *****");
                 System.out.println();
             }
@@ -870,13 +869,13 @@ public class HotelLogic {
         // Print confirmation info
 
         System.out.println("\n\t\t***Confirmation***");
-        System.out.println("SSN: " + ssn);
-        System.out.println("Your booking id is: " + bookingNumber);
-        System.out.println("Thr room that you chose has the number: " + temp.getRoomNumber());
-        System.out.println("Your check in will be at: " + checkinDate);
-        System.out.println("Your check out will be at: " + checkoutDate);
-        System.out.printf("The room that you chose costs per day %.2f", temp.getPrice());
-        System.out.printf(" The total price is:  %.2f", price);
+        System.out.println("SSN                                    : " + ssn);
+        System.out.println("Your booking id is                     : " + bookingNumber);
+        System.out.println("Thr room that you chose has the number : " + temp.getRoomNumber());
+        System.out.println("Your check in will be at               : " + checkinDate);
+        System.out.println("Your check out will be at              : " + checkoutDate);
+        System.out.println("The room that you chose costs per day  : " + temp.getPrice());
+        System.out.println("The total price is                     : " + price);
         System.out.print("\nAll information are correct (Y/N)? ");
         String choice = input.nextLine();
 
@@ -1248,13 +1247,15 @@ public class HotelLogic {
             System.out.println("There is no booking in the hotel");
         } else {
 
-            System.out.println("\u001b[34m" + "\t\t\t " + "All booking in the hotel" + "\u001b[0m");
-            System.out.println("Booking Id\t\t" + "Room Number\t\t\t\t" + "    Check in date\t\t\t\t\t\t" + "    check out date");
+            System.out.format("\u001B[33m" + "+-----------------------+---------------------+------------------------------------+------------------------------------+%n" + "\u001b[0m");
+            System.out.format("\u001B[33m" + "Booking ID              |ROOM NUMBER          |Check in date                       |Check out date                      |%n" + "\u001b[0m");
+            System.out.format("\u001B[33m" + "+-----------------------+---------------------+------------------------------------+------------------------------------+%n" + "\u001b[0m");
             for (int i = 0; i < bookings.size(); i++) {
-                System.out.println(bookings.get(i).getBookingId() + "\t\t\t\t\t" + bookings.get(i).getRoomNbr() + "\t\t\t\t\t" +
-                        bookings.get(i).getCheckInDate() + "\t\t" + bookings.get(i).getCheckOutDate());
+                System.out.printf("| %-21s |%-20s | %-34s | %-34s |%n", bookings.get(i).getBookingId(), bookings.get(i).getRoomNbr(),
+                        bookings.get(i).getCheckInDate(), bookings.get(i).getCheckOutDate());
                 check = false;
             }
+            System.out.format("\u001B[33m" + "+-----------------------+---------------------+------------------------------------+------------------------------------+%n" + "\u001b[0m");
         }
         if (check) {
             System.out.println();
@@ -1552,7 +1553,7 @@ public class HotelLogic {
         rooms.get(roomNumber).setPrice(pricePerNight);
         System.out.println();
         System.out.println("\u001b[34m" + "---- ---- ---- ---- ---- ---- ---- ---- ---- " + "\u001b[0m");
-        System.out.println("\u001b[34m" +"Room's information has been modified successfully"+ "\u001b[0m");
+        System.out.println("\u001b[34m" + "Room's information has been modified successfully" + "\u001b[0m");
         System.out.println("\u001b[34m" + "---- ---- ---- ---- ---- ---- ---- ---- ---- " + "\u001b[0m");
         System.out.println();
     }
@@ -1799,12 +1800,12 @@ public class HotelLogic {
 
 
         Customer customer1 =
-                new Customer("121212-1212", "Johan Andersson", "Kristianstad",
+                new Customer("1212121212", "Johan Andersson", "Kristianstad",
                         "0722880025", "johan@gmail.se", "xxxx", "xxxx");
         customers.add(customer1);
 
         Customer customer2 =
-                new Customer("999999-9999", "Adam Smith", "Kristianstad",
+                new Customer("9999999999", "Adam Smith", "Kristianstad",
                         "0788226699", "adam@gmail.se", "aaaa", "aaaa");
         customers.add(customer2);
 
