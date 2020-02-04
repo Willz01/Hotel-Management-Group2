@@ -3,19 +3,20 @@ package HotelManagementApplication_Group2;
 import java.io.Serializable;
 
 public class Employee implements Serializable {
-
+    private int employeeID;
     private String userName;
     private String employeePassWord;
     private String name;
+    private String address;
     private String telephoneNumber;
-    private int employeeNumber;
 
-    public Employee(String userName, String employeePassWord, String name, String telephoneNumber, int employeeNumber) {
+    public Employee(int employeeID, String userName, String employeePassWord, String name, String address, String telephoneNumber) {
+        this.employeeID = employeeID;
         this.userName = userName;
         this.employeePassWord = employeePassWord;
         this.name = name;
+        this.address = address;
         this.telephoneNumber = telephoneNumber;
-        this.employeeNumber = employeeNumber;
     }
 
     public String getName() {
@@ -34,12 +35,12 @@ public class Employee implements Serializable {
         this.telephoneNumber = telephoneNumber;
     }
 
-    public int getEmployeeNumber() {
-        return employeeNumber;
+    public int getEmployeeID() {
+        return employeeID;
     }
 
-    public void setEmployeeNumber(int employeeNumber) {
-        this.employeeNumber = employeeNumber;
+    public void setEmployeeID(int employeeID) {
+        this.employeeID = employeeID;
     }
 
     public String getUserName() {
@@ -48,6 +49,14 @@ public class Employee implements Serializable {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getEmployeePassWord() {

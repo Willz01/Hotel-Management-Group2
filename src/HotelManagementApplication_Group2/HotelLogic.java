@@ -18,10 +18,12 @@ public class HotelLogic {
     private LinkedList<HotelManagementApplication_Group2.Booking> bookingHistory = new LinkedList<>();
     private String ssn;
     private Customer inloggedCustomer;
+    private int employeeID;
+    Admin admin = new Admin ("admin", "admin");
 
     public HotelLogic() {
-//         populateRoomArrayList();                //Here in the problem when I call this method so the java.io.NotSerializableException: HotelManagementApplication_Group2.Room happened.
-//         testInformation();                       //User these two calls to create a database one one time. So that why I keep them here as a comment
+//        populateRoomArrayList();                //Here in the problem when I call this method so the java.io.NotSerializableException: HotelManagementApplication_Group2.Room happened.
+//        testInformation();                       //User these two calls to create a database one one time. So that why I keep them here as a comment
         load();
     }
     // menu methods.
@@ -38,7 +40,8 @@ public class HotelLogic {
             System.out.println("====LOGIN MENU===");
             System.out.println("1> Customer     |");
             System.out.println("2> Employee     |");
-            System.out.println("3> Exit         |");
+            System.out.println("3> Admin        |");
+            System.out.println("4> Exit         |");
             System.out.println("=================");
 
 
@@ -109,6 +112,25 @@ public class HotelLogic {
                 }
 
             } else if (choice == 3) {
+
+                System.out.printf("Enter your user name : ");
+                String userName = input.nextLine();
+                System.out.printf("Enter your password  : ");
+                String password = input.nextLine();
+
+                if (admin.getUserAdmin().equals(userName) && admin.getPassAdmin().equals(password)) {
+                    logIn++;
+                    adminMenu();
+                    break;
+                }
+            }
+            if (logIn == 1) {
+                System.out.println();
+                System.out.println("\u001b[35m" + "***** The user name or password is not correct ****" + "\u001b[0m");
+                System.out.println();
+            }
+
+            else if (choice == 4) {
                 System.out.println("Thanks for now !! ");
                 System.exit(0);
                 break;
@@ -198,6 +220,34 @@ public class HotelLogic {
 
     }
 
+    private void adminMenu() {
+        int choice = 0;
+        while (true) {
+            menu();
+            try {
+                choice = input.nextInt();
+                input.nextLine();
+            } catch (Exception e) {
+                System.out.println("Invalid input, please enter a number from the menu");
+                continue;
+            }
+
+            if (choice == 1) {
+                customerManagement();
+            } else if (choice == 2) {
+                bookingManagement();
+            } else if (choice == 3) {
+                roomManagement();
+            } else if (choice == 4) {
+                employeeManagement();
+            } else if (choice == 0) {
+                System.out.println("\u001b[35m" + "Thanks for your service" + "\u001b[0m");
+                save();
+                return;
+            }
+        }
+    }
+
     private void menu() {
         System.out.println("=== ==== === === === === === ===");
         System.out.println("-------- MENU -------- ");
@@ -273,6 +323,41 @@ public class HotelLogic {
                 searchCustomer();
             } else if (choice == 4) {
                 editCustomerInformation();
+            } else if (choice == 0) {
+                return;
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input!, please choose from the menu");
+            return;
+        }
+
+    }
+
+    private void employeeManagement() {
+        System.out.println("=== ==== === === === === === ===");
+        System.out.println("1-> Add new employee");
+        System.out.println("2-> List of employees");
+        System.out.println("3-> Search a employee");
+        System.out.println("4-> Edit employee's information ");
+        System.out.println("0-> Return to the menu ");
+        System.out.println("=== ==== === === === === === ===");
+        System.out.println();
+
+        int choice;
+
+        try {
+            System.out.print("Enter your choice: ");
+            String choiceString = input.nextLine();
+            choice = Integer.parseInt(choiceString);
+
+            if (choice == 1) {
+                addNewEmployee();
+            } else if (choice == 2) {
+                viewEmployee();
+            } else if (choice == 3) {
+                searchEmployee();
+            } else if (choice == 4) {
+                editEmployeeInformation();
             } else if (choice == 0) {
                 return;
             }
@@ -641,6 +726,79 @@ public class HotelLogic {
             }
 
         }
+    }
+
+    private void addNewEmployee() {
+
+        boolean done = false;
+        while (!done) {
+            System.out.println("Enter employees's ID");
+            employeeID = input.nextInt();
+
+            if (employeeID == 0) {
+                return;
+            }
+
+            for (Employee employee : employees) {
+                if (employee.getEmployeeID()==(employeeID)) {
+                    System.out.println("-- -- -- -- -- -- -- -- -- -- -- --");
+                    System.out.println("---- !The employee already exist in the system! ----");
+                    System.out.println("-- -- -- -- -- -- -- -- -- -- -- --");
+                    System.out.println();
+                    System.out.println("Enter another ID or 0 to abort");
+                    done = false;
+
+
+                } else {
+                    done = true;
+
+                }
+            }
+        }
+        System.out.print("Employee's username: ");
+        String employeeUserName = input.nextLine();
+        System.out.print("Employee's password: ");
+        String employeePassWord = input.nextLine();
+        System.out.print("Employee's name: ");
+        String employeeName = input.nextLine();
+        System.out.print("Employee's address: ");
+        String employeeAddress = input.nextLine();
+        System.out.print("TelephoneNumber: ");
+        String employeeTelephoneNumber = input.nextLine();
+
+
+        Employee employee = new Employee(employeeID, employeeUserName, employeePassWord, employeeName, employeeAddress,
+                employeeTelephoneNumber);       // Create new employee object and save it in the employees LinkedList
+        employees.add(employee);
+        save();                                                    // save the new employee in the database.
+        System.out.println();
+        System.out.println("-- -- -- -- -- -- -- -- -- -- -- --");
+        System.out.println("The employee has been added");
+        System.out.println("-- -- -- -- -- -- -- -- -- -- -- --");
+        // Text file for employee information & for the hotel use
+        try {
+            PrintWriter printWriter = new PrintWriter(new FileWriter("EmployeesInformation", true));
+            printWriter.println("-------------------------------------------------------------------------------");
+            printWriter.println("| Employee's name: " + employee.getName() + " ID: " + employee.getEmployeeID() + ", Address: " + employee.getAddress()
+                    + ", Telephone: " + employee.getTelephoneNumber() + ", user name: " + employee.getUserName() + " , password: " + employee.getEmployeePassWord());
+            printWriter.println("-------------------------------------------------------------------------------");
+            printWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void viewEmployee(){
+
+    }
+
+    private void searchEmployee(){
+
+    }
+
+    private void editEmployeeInformation(){
+
     }
 
     //Booking methods.
@@ -1788,14 +1946,14 @@ public class HotelLogic {
 
     private void testInformation() {
         Employee employee1 =
-                new Employee("1234", "1234", "Muhannad ",
-                        "0768837489", 1);
+                new Employee(1, "1234", "1234", "Muhannad ", "Kristianstadvägen",
+                        "0768837489");
 
         employees.add(employee1);
 
         Employee employee2 =
-                new Employee("4321", "4321",
-                        "Wills", "0768837489", 2);
+                new Employee(2, "4321", "4321",
+                        "Wills", "Nya vägen", "0768837489");
         employees.add(employee2);
 
 
