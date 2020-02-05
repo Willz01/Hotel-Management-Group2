@@ -3,14 +3,14 @@ package HotelManagementApplication_Group2;
 import java.io.Serializable;
 
 public class Employee implements Serializable {
-    private int employeeID;
+    private String employeeID;
     private String userName;
     private String employeePassWord;
     private String name;
     private String address;
     private String telephoneNumber;
 
-    public Employee(int employeeID, String userName, String employeePassWord, String name, String address, String telephoneNumber) {
+    public Employee(String employeeID, String userName, String employeePassWord, String name, String address, String telephoneNumber) {
         this.employeeID = employeeID;
         this.userName = userName;
         this.employeePassWord = employeePassWord;
@@ -35,11 +35,11 @@ public class Employee implements Serializable {
         this.telephoneNumber = telephoneNumber;
     }
 
-    public int getEmployeeID() {
+    public String getEmployeeID() {
         return employeeID;
     }
 
-    public void setEmployeeID(int employeeID) {
+    public void setEmployeeID(String employeeID) {
         this.employeeID = employeeID;
     }
 

@@ -18,12 +18,12 @@ public class HotelLogic {
     private LinkedList<Booking> bookingHistory = new LinkedList<>();
     private String ssn;
     private Customer inloggedCustomer;
-    private int employeeID;
+    private String employeeID;
     Admin admin = new Admin ("admin", "admin");
 
     public HotelLogic() {
- //       populateRoomArrayList();                //Here in the problem when I call this method so the java.io.NotSerializableException: HotelManagementApplication_Group2.Room happened.
- //       testInformation();                       //User these two calls to create a database one one time. So that why I keep them here as a comment
+//        populateRoomArrayList();                //Here in the problem when I call this method so the java.io.NotSerializableException: HotelManagementApplication_Group2.Room happened.
+//        testInformation();                       //User these two calls to create a database one one time. So that why I keep them here as a comment
         load();
     }
     // menu methods.
@@ -746,14 +746,14 @@ public class HotelLogic {
         boolean done = false;
         while (!done) {
             System.out.println("Enter employees's ID");
-            employeeID = input.nextInt();
+            employeeID = input.nextLine();
 
-            if (employeeID == 0) {
+            if (employeeID.equalsIgnoreCase("0")) {
                 return;
             }
 
             for (Employee employee : employees) {
-                if (employee.getEmployeeID()==(employeeID)) {
+                if (employee.getEmployeeID().equals(employeeID)) {
                     System.out.println("-- -- -- -- -- -- -- -- -- -- -- --");
                     System.out.println("---- !The employee already exist in the system! ----");
                     System.out.println("-- -- -- -- -- -- -- -- -- -- -- --");
@@ -769,6 +769,7 @@ public class HotelLogic {
             }
         }
         System.out.print("Employee's username: ");
+        // input.nextLine();
         String employeeUserName = input.nextLine();
         System.out.print("Employee's password: ");
         String employeePassWord = input.nextLine();
@@ -803,14 +804,145 @@ public class HotelLogic {
     }
 
     private void viewEmployee(){
+        System.out.println("\u001b[34m" + "---- All employees in the hotel ----" + "\u001b[0m");
+        System.out.println();
 
+        System.out.format("\u001B[33m" + "-----------------------+-------------+---------------------------+------------------+--------------------------+%n" + "\u001b[0m");
+        System.out.format("\u001B[33m" + "Customer name          |Employee ID  |Address                    |Telephone number  |Username                  |%n" + "\u001b[0m");
+        System.out.format("\u001B[33m" + "-----------------------+-------------+---------------------------+------------------+--------------------------+%n" + "\u001b[0m");
+        for (int i = 0; i < employees.size(); i++) {
+            System.out.printf("| %-20s |%-12s | %-25s | %-16s | %-24s |%n", employees.get(i).getName(), employees.get(i).getEmployeeID(),
+                    employees.get(i).getAddress(), employees.get(i).getTelephoneNumber(), employees.get(i).getUserName());
+        }
+        System.out.format("\u001B[33m" + "-----------------------+-------------+---------------------------+------------------+--------------------------+%n" + "\u001b[0m");
     }
 
     private void searchEmployee(){
+        boolean done = false;
+        boolean check = true;
+        System.out.print("Enter ID, Telephone number or employee's name: ");
+        String userInput = input.nextLine();
+
+
+        for (Employee employee : employees) {
+            if ((employee.getName().equalsIgnoreCase(userInput) ||
+                    employee.getEmployeeID().equalsIgnoreCase(userInput) ||
+                    employee.getTelephoneNumber().equalsIgnoreCase(userInput))) {
+                System.out.println("++++++++++++++++++++++++++");
+                System.out.println("\u001b[34m" + "Employee's info : " + "\u001b[0m");
+                System.out.println("Name         : " + employee.getName());
+                System.out.println("Employee ID  : " + employee.getEmployeeID());
+                System.out.println("Address      : " + employee.getAddress());
+                System.out.println("Phone number : " + employee.getTelephoneNumber());
+                System.out.println("++++++++++++++++++++++++++");
+                System.out.println();
+                check = false;
+
+            }
+        }
+
+
+        if (check) {
+            System.out.println();
+            System.out.println("++++++++++++++++++++++++++");
+            System.out.println("No customer found with this information: " + userInput);
+            System.out.println("++++++++++++++++++++++++++");
+            System.out.println();
+        }
 
     }
 
     private void editEmployeeInformation(){
+        int oneOrTwo;
+        int employeeNumber;                                                                                     // Modify information for customer which have booking in the hotel
+        System.out.println("--- ---Change the information of current employees of the hotel--- ---");
+        System.out.println();
+
+        System.out.format("\u001B[33m" + "-------+-----------------------+-------------+---------------------------+------------------+--------------------------+%n" + "\u001b[0m");
+        System.out.format("\u001B[33m" + " Index |Employees name         |Employee ID  |Address                    |Telephone number  |Username                  |%n" + "\u001b[0m");
+        System.out.format("\u001B[33m" + "-------+-----------------------+-------------+---------------------------+------------------+--------------------------+%n" + "\u001b[0m");
+
+        for (int i = 0; i < employees.size(); i++) {
+            System.out.printf("| %-4s | %-21s |%-12s | %-25s | %-16s | %-24s |%n", i, employees.get(i).getName(), employees.get(i).getEmployeeID(),
+                    employees.get(i).getAddress(), employees.get(i).getTelephoneNumber(), employees.get(i).getUserName());
+        }
+        System.out.format("\u001B[33m" + "-------+-----------------------+-------------+---------------------------+------------------+--------------------------+%n" + "\u001b[0m");
+        try {
+
+            System.out.println("Which employees information do you want to change? (enter a employee number from index)");
+            String customerNumberString = input.nextLine();
+            employeeNumber = Integer.parseInt(customerNumberString);
+        } catch (NumberFormatException e) {
+            System.out.println("! Invalid input , enter which employee do you want to edit");
+            return;
+        }
+
+        try {
+            System.out.println("1- Change all the information)");
+            System.out.println("2- Change certain information");
+            System.out.println("Choose >1 or >2");
+
+            String oneOrTwoString = input.nextLine();
+            oneOrTwo = Integer.parseInt(oneOrTwoString);
+        } catch (NumberFormatException e) {
+            System.out.println("! Invalid input , enter which option do you want.");
+            return;
+        }
+        if (oneOrTwo == 1) {
+            System.out.println("Enter a new name: ");
+            String name = input.nextLine();
+            System.out.println("Enter employee's ID");
+            String ID = input.nextLine();
+            System.out.println("Enter employee's address");
+            String address = input.nextLine();
+            System.out.println("Enter employee's telephone number ");
+            String employeeTele = input.nextLine();
+            System.out.println("Enter employee's Username");
+            String employeeUsername = input.nextLine();
+            employees.get(employeeNumber).setName(name);
+            employees.get(employeeNumber).setEmployeeID(ID);
+            employees.get(employeeNumber).setAddress(address);
+            employees.get(employeeNumber).setTelephoneNumber(employeeTele);
+            employees.get(employeeNumber).setUserName(employeeUsername);
+        } else if (oneOrTwo == 2) {
+            System.out.println("Which information do you want to change");
+            System.out.println("Name?, Address ? , Phone?, ID? or Username?");
+            System.out.println("Enter you choice: ");
+            String choice = input.nextLine();
+            choice = choice.toLowerCase();
+
+            if (choice.equals("name")) {
+                System.out.println("Enter the name");
+                String name = input.nextLine();
+                employees.get(employeeNumber).setName(name);
+                System.out.println("The name changed");
+            } else if (choice.equals("ID")) {
+                System.out.println("Enter the ID:");
+                String ssn = input.nextLine();
+                employees.get(employeeNumber).setEmployeeID(ssn);
+                System.out.println("The ID changed");
+            } else if (choice.equals("address")) {
+                System.out.println("Enter the address: ");
+                String address = input.nextLine();
+                employees.get(employeeNumber).setAddress(address);
+                System.out.println("The address changed");
+            } else if (choice.equals("phone")) {
+                System.out.println("Enter the telephone number");
+                String phone = input.nextLine();
+                employees.get(employeeNumber).setTelephoneNumber(phone);
+                System.out.println("The telephone number changed");
+            } else if (choice.equals("username")) {
+                System.out.println("Enter the username");
+                String username = input.nextLine();
+                employees.get(employeeNumber).setUserName(username);
+                System.out.println("The username changed ");
+
+            } else {
+                System.out.println("Enter one of the above options please.");
+            }
+        }
+
+        save();
 
     }
 
@@ -1959,13 +2091,13 @@ public class HotelLogic {
 
     private void testInformation() {
         Employee employee1 =
-                new Employee(1, "1234", "1234", "Muhannad ", "Kristianstadvägen",
+                new Employee("1", "1234", "1234", "Muhannad ", "Kristianstadvägen",
                         "0768837489");
 
         employees.add(employee1);
 
         Employee employee2 =
-                new Employee(2, "4321", "4321",
+                new Employee("2", "4321", "4321",
                         "Wills", "Nya vägen", "0768837489");
         employees.add(employee2);
 
