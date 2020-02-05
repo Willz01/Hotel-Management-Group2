@@ -219,7 +219,7 @@ public class HotelLogic {
 
     }
 
-    private void adminMenu() {
+    private void adminMenu() throws IOException {
         int choice = 0;
         while (true) {
             menuForAdmin();
@@ -242,7 +242,7 @@ public class HotelLogic {
             } else if (choice == 0) {
                 System.out.println("\u001b[35m" + "Thanks for your service" + "\u001b[0m");
                 save();
-                return;
+                loginMenu();
             }
         }
     }
@@ -350,8 +350,9 @@ public class HotelLogic {
         System.out.println("=== ==== === === === === === ===");
         System.out.println("1-> Add new employee");
         System.out.println("2-> List of employees");
-        System.out.println("3-> Search a employee");
-        System.out.println("4-> Edit employee's information ");
+        System.out.println("3-> Search an employee");
+        System.out.println("4-> Edit employee's information");
+        System.out.println("5-> Delete an employee's account");
         System.out.println("0-> Return to the menu ");
         System.out.println("=== ==== === === === === === ===");
         System.out.println();
@@ -371,6 +372,8 @@ public class HotelLogic {
                 searchEmployee();
             } else if (choice == 4) {
                 editEmployeeInformation();
+            } else if (choice == 5) {
+                deleteEmployee();
             } else if (choice == 0) {
                 return;
             }
@@ -796,14 +799,14 @@ public class HotelLogic {
         System.out.println("\u001b[34m" + "---- All employees in the hotel ----" + "\u001b[0m");
         System.out.println();
 
-        System.out.format("\u001B[33m" + "-----------------------+-------------+---------------------------+------------------+--------------------------+%n" + "\u001b[0m");
-        System.out.format("\u001B[33m" + "Customer name          |Employee ID  |Address                    |Telephone number  |Username                  |%n" + "\u001b[0m");
-        System.out.format("\u001B[33m" + "-----------------------+-------------+---------------------------+------------------+--------------------------+%n" + "\u001b[0m");
+        System.out.format("\u001B[33m" + "-----------------------+-------------+---------------------------+------------------+--------------------------+----------------+%n" + "\u001b[0m");
+        System.out.format("\u001B[33m" + "Customer name          |Employee ID  |Address                    |Telephone number  |Username                  |Password        |%n" + "\u001b[0m");
+        System.out.format("\u001B[33m" + "-----------------------+-------------+---------------------------+------------------+--------------------------+----------------+%n" + "\u001b[0m");
         for (int i = 0; i < employees.size(); i++) {
-            System.out.printf("| %-20s |%-12s | %-25s | %-16s | %-24s |%n", employees.get(i).getName(), employees.get(i).getEmployeeID(),
-                    employees.get(i).getAddress(), employees.get(i).getTelephoneNumber(), employees.get(i).getUserName());
+            System.out.printf("| %-20s |%-12s | %-25s | %-16s | %-24s | %-14s |%n", employees.get(i).getName(), employees.get(i).getEmployeeID(),
+                    employees.get(i).getAddress(), employees.get(i).getTelephoneNumber(), employees.get(i).getUserName(), employees.get(i).getEmployeePassWord());
         }
-        System.out.format("\u001B[33m" + "-----------------------+-------------+---------------------------+------------------+--------------------------+%n" + "\u001b[0m");
+        System.out.format("\u001B[33m" + "-----------------------+-------------+---------------------------+------------------+--------------------------+----------------+%n" + "\u001b[0m");
     }
 
     private void searchEmployee(){
@@ -823,6 +826,8 @@ public class HotelLogic {
                 System.out.println("Employee ID  : " + employee.getEmployeeID());
                 System.out.println("Address      : " + employee.getAddress());
                 System.out.println("Phone number : " + employee.getTelephoneNumber());
+                System.out.println("Username     : " + employee.getUserName());
+                System.out.println("Password     : " + employee.getEmployeePassWord());
                 System.out.println("++++++++++++++++++++++++++");
                 System.out.println();
                 check = false;
@@ -834,7 +839,7 @@ public class HotelLogic {
         if (check) {
             System.out.println();
             System.out.println("++++++++++++++++++++++++++");
-            System.out.println("No customer found with this information: " + userInput);
+            System.out.println("No employee found with this information: " + userInput);
             System.out.println("++++++++++++++++++++++++++");
             System.out.println();
         }
@@ -842,7 +847,7 @@ public class HotelLogic {
     }
 
     private void editEmployeeInformation(){
-        int oneOrTwoOrThree;
+        int oneOrTwo;
         int employeeNumber;                                                                                     // Modify information for employee
         System.out.println("--- ---Change the information of current employees of the hotel--- ---");
         System.out.println();
@@ -858,9 +863,9 @@ public class HotelLogic {
         System.out.format("\u001B[33m" + "-------+-----------------------+-------------+---------------------------+------------------+--------------------------+%n" + "\u001b[0m");
         try {
 
-            System.out.println("Which employees information do you want to change? (enter a employee number from index)");
-            String customerNumberString = input.nextLine();
-            employeeNumber = Integer.parseInt(customerNumberString);
+            System.out.println("Which employee's information do you want to change? (enter a employee number from index)");
+            String employeeNumberString = input.nextLine();
+            employeeNumber = Integer.parseInt(employeeNumberString);
         } catch (NumberFormatException e) {
             System.out.println("! Invalid input , enter which employee do you want to edit");
             return;
@@ -869,16 +874,15 @@ public class HotelLogic {
         try {
             System.out.println("1- Change all the information)");
             System.out.println("2- Change certain information");
-            System.out.println("3- Delete employee");
-            System.out.println("Choose >1 or >2 or >3");
+            System.out.println("Choose >1 or >2");
 
             String oneOrTwoString = input.nextLine();
-            oneOrTwoOrThree = Integer.parseInt(oneOrTwoString);
+            oneOrTwo = Integer.parseInt(oneOrTwoString);
         } catch (NumberFormatException e) {
             System.out.println("! Invalid input , enter which option do you want.");
             return;
         }
-        if (oneOrTwoOrThree == 1) {
+        if (oneOrTwo == 1) {
             System.out.println("Enter a new name: ");
             String name = input.nextLine();
             System.out.println("Enter employee's ID");
@@ -894,7 +898,7 @@ public class HotelLogic {
             employees.get(employeeNumber).setAddress(address);
             employees.get(employeeNumber).setTelephoneNumber(employeeTele);
             employees.get(employeeNumber).setUserName(employeeUsername);
-        } else if (oneOrTwoOrThree == 2) {
+        } else if (oneOrTwo == 2) {
             System.out.println("Which information do you want to change");
             System.out.println("Name?, Address ? , Phone?, ID? or Username?");
             System.out.println("Enter you choice: ");
@@ -930,33 +934,53 @@ public class HotelLogic {
             } else {
                 System.out.println("Enter one of the above options please.");
             }
-        } else if (oneOrTwoOrThree == 3){
-            System.out.printf("Are you sure you want to delete %s the employee with the ID %s ?\n", employees.get(employeeNumber).getName(), employees.get(employeeNumber).getEmployeeID() +"(yes or no)");
-            String userAnswer = input.nextLine();
-            userAnswer = userAnswer.toLowerCase();
-            if (userAnswer.equals("yes")) {
-                employees.remove(employeeNumber);
-                System.out.println();
-                System.out.println("\u001b[34m" + "----------------------------------" + "\u001b[0m");
-                System.out.println("Employee has been removed ");
-                System.out.println("\u001b[34m" + "----------------------------------" + "\u001b[0m");
-                System.out.println();
-                return;
-            } else if (userAnswer.equals("no")) {
-                System.out.println();
-                System.out.println("\u001b[34m" + "----------------------------------" + "\u001b[0m");
-                System.out.println("Employee has not been removed ");
-                System.out.println("\u001b[34m" + "----------------------------------" + "\u001b[0m");
-                System.out.println();
-            } else {
-                System.out.println("Invalid input!");
-            }
         }
-
         save();
-
     }
+    private void deleteEmployee(){
+        int employeeNumber;
+        System.out.println("--- ---Delete an account of the current employees of the hotel--- ---");
+        System.out.println();
 
+        System.out.format("\u001B[33m" + "-------+-----------------------+-------------+---------------------------+------------------+--------------------------+%n" + "\u001b[0m");
+        System.out.format("\u001B[33m" + " Index |Employees name         |Employee ID  |Address                    |Telephone number  |Username                  |%n" + "\u001b[0m");
+        System.out.format("\u001B[33m" + "-------+-----------------------+-------------+---------------------------+------------------+--------------------------+%n" + "\u001b[0m");
+
+        for (int i = 0; i < employees.size(); i++) {
+            System.out.printf("| %-4s | %-21s |%-12s | %-25s | %-16s | %-24s |%n", i, employees.get(i).getName(), employees.get(i).getEmployeeID(),
+                    employees.get(i).getAddress(), employees.get(i).getTelephoneNumber(), employees.get(i).getUserName());
+        }
+        System.out.format("\u001B[33m" + "-------+-----------------------+-------------+---------------------------+------------------+--------------------------+%n" + "\u001b[0m");
+        try {
+
+            System.out.println("Which employee's account do you want to delete? (enter a employee number from index)");
+            String employeeNumberString = input.nextLine();
+            employeeNumber = Integer.parseInt(employeeNumberString);
+        } catch (NumberFormatException e) {
+            System.out.println("! Invalid input , enter which employee's account do you want to delete");
+            return;
+        }
+        System.out.printf("Are you sure you want to delete %s the employee with the ID %s ?\n", employees.get(employeeNumber).getName(), employees.get(employeeNumber).getEmployeeID() +"(yes or no)");
+        String userAnswer = input.nextLine();
+        userAnswer = userAnswer.toLowerCase();
+        if (userAnswer.equals("yes")) {
+            employees.remove(employeeNumber);
+            System.out.println();
+            System.out.println("\u001b[34m" + "----------------------------------" + "\u001b[0m");
+            System.out.println("Employee has been removed ");
+            System.out.println("\u001b[34m" + "----------------------------------" + "\u001b[0m");
+            System.out.println();
+            return;
+        } else if (userAnswer.equals("no")) {
+            System.out.println();
+            System.out.println("\u001b[34m" + "----------------------------------" + "\u001b[0m");
+            System.out.println("Employee has not been removed ");
+            System.out.println("\u001b[34m" + "----------------------------------" + "\u001b[0m");
+            System.out.println();
+        } else {
+            System.out.println("Invalid input!");
+        }
+    }
 
     //Booking methods.
 
