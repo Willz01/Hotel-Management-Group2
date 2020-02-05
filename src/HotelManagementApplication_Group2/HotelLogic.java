@@ -11,19 +11,19 @@ import java.util.*;
 public class HotelLogic {
 
     private Scanner input = new Scanner(System.in);
-    private LinkedList<HotelManagementApplication_Group2.Employee> employees = new LinkedList<>();
-    private LinkedList<HotelManagementApplication_Group2.Customer> customers = new LinkedList<>();
-    private LinkedList<HotelManagementApplication_Group2.Booking> bookings = new LinkedList<>();
+    private LinkedList<Employee> employees = new LinkedList<>();
+    private LinkedList<Customer> customers = new LinkedList<>();
+    private LinkedList<Booking> bookings = new LinkedList<>();
     private LinkedList<HotelManagementApplication_Group2.Room> rooms = new LinkedList<>();
-    private LinkedList<HotelManagementApplication_Group2.Booking> bookingHistory = new LinkedList<>();
+    private LinkedList<Booking> bookingHistory = new LinkedList<>();
     private String ssn;
     private Customer inloggedCustomer;
     private int employeeID;
     Admin admin = new Admin ("admin", "admin");
 
     public HotelLogic() {
-//        populateRoomArrayList();                //Here in the problem when I call this method so the java.io.NotSerializableException: HotelManagementApplication_Group2.Room happened.
-//        testInformation();                       //User these two calls to create a database one one time. So that why I keep them here as a comment
+ //       populateRoomArrayList();                //Here in the problem when I call this method so the java.io.NotSerializableException: HotelManagementApplication_Group2.Room happened.
+ //       testInformation();                       //User these two calls to create a database one one time. So that why I keep them here as a comment
         load();
     }
     // menu methods.
@@ -123,14 +123,13 @@ public class HotelLogic {
                     adminMenu();
                     break;
                 }
-            }
             if (logIn == 1) {
                 System.out.println();
                 System.out.println("\u001b[35m" + "***** The user name or password is not correct ****" + "\u001b[0m");
                 System.out.println();
             }
 
-            else if (choice == 4) {
+            } else if (choice == 4) {
                 System.out.println("Thanks for now !! ");
                 System.exit(0);
                 break;
@@ -223,7 +222,7 @@ public class HotelLogic {
     private void adminMenu() {
         int choice = 0;
         while (true) {
-            menu();
+            menuForAdmin();
             try {
                 choice = input.nextInt();
                 input.nextLine();
@@ -254,6 +253,20 @@ public class HotelLogic {
         System.out.println("1-> Customer management");
         System.out.println("2-> Booking management");
         System.out.println("3-> Room management");
+        System.out.println("0-> Back to login menu");
+        System.out.println("=== ==== === === === === === ===");
+        System.out.print("Enter your choice:  ");
+
+
+    }
+
+    private void menuForAdmin(){
+        System.out.println("=== ==== === === === === === ===");
+        System.out.println("-------- MENU -------- ");
+        System.out.println("1-> Customer management");
+        System.out.println("2-> Booking management");
+        System.out.println("3-> Room management");
+        System.out.println("4-> Employee management");
         System.out.println("0-> Back to login menu");
         System.out.println("=== ==== === === === === === ===");
         System.out.print("Enter your choice:  ");
